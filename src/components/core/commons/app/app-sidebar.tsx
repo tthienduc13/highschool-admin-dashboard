@@ -274,7 +274,7 @@ export default function AppSideBar({ children }: AppSideBarProps) {
                                     asChild
                                     tooltip={"Dashboard"}
                                 >
-                                    <Link href={"/dashboard/overview"}>
+                                    <Link href={"/"}>
                                         <IconLayoutDashboard />{" "}
                                         <span>Dashboard</span>
                                     </Link>

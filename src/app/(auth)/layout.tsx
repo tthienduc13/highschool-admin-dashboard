@@ -9,7 +9,7 @@ export default async function RootAuthLayout({
 }>) {
     const cookieStore = await cookies();
     const hasToken = cookieStore.has(constants.ACCESS_TOKEN);
-    if (hasToken) redirect("/overview");
+    if (hasToken) redirect("/");
 
     return <>{children}</>;
 }
