@@ -11,7 +11,7 @@ import { AreaGraph } from "./area-graph";
 import { RecentSales } from "./recent-sale";
 import { PieGraph } from "./pie-chart";
 import { BarGraph } from "./bar-graph";
-import PageContainer from "@/components/core/commons/layouts/page-container";
+import PageContainer from "@/components/core/layouts/page-container";
 import { CalendarDateRangePicker } from "@/components/core/commons/date-range-picker";
 
 export default function DashboardOverViewModule() {

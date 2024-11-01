@@ -4,7 +4,6 @@ import * as React from "react";
 import {
     AudioWaveform,
     BookOpen,
-    Bot,
     ChevronRight,
     ChevronsUpDown,
     Command,
@@ -17,7 +16,6 @@ import {
     PieChart,
     Plus,
     Settings2,
-    SquareTerminal,
     Trash2,
 } from "lucide-react";
 
@@ -63,15 +61,10 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { IconLayoutDashboard } from "@tabler/icons-react";
+import { IconBook, IconLayoutDashboard, IconNews } from "@tabler/icons-react";
 import Link from "next/link";
 import { UserButton } from "./user-button";
 const data = {
-    user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    },
     teams: [
         {
             name: "Acme Inc",
@@ -91,14 +84,14 @@ const data = {
     ],
     navMain: [
         {
-            title: "Overview",
+            title: "Subject Managments",
             url: "#",
-            icon: SquareTerminal,
+            icon: IconBook,
             isActive: true,
             items: [
                 {
-                    title: "History",
-                    url: "#",
+                    title: "All courses",
+                    url: "/subject-management/courses",
                 },
                 {
                     title: "Starred",
@@ -111,17 +104,17 @@ const data = {
             ],
         },
         {
-            title: "Models",
+            title: "News management",
             url: "#",
-            icon: Bot,
+            icon: IconNews,
             items: [
                 {
-                    title: "Genesis",
-                    url: "#",
+                    title: "News",
+                    url: "/news-management",
                 },
                 {
-                    title: "Explorer",
-                    url: "#",
+                    title: "Create New",
+                    url: "/news-management/create",
                 },
                 {
                     title: "Quantum",
@@ -195,11 +188,11 @@ const data = {
     ],
 };
 
-interface AppSideBarProps {
+interface ModeratorSidebarProps {
     children: React.ReactNode;
 }
 
-export default function AppSideBar({ children }: AppSideBarProps) {
+export default function ModeratorSidebar({ children }: ModeratorSidebarProps) {
     const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
     return (
         <SidebarProvider>
@@ -211,10 +204,10 @@ export default function AppSideBar({ children }: AppSideBarProps) {
                                 <DropdownMenuTrigger asChild>
                                     <SidebarMenuButton
                                         size="lg"
-                                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                                        className="data-[state=open]:bg-sidebar-primary data-[state=open]:text-sidebar-accent-foreground"
                                     >
                                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                            <activeTeam.logo className="size-4" />
+                                            {/* <activeTeam.logo className="size-4" /> */}
                                         </div>
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <span className="truncate font-semibold">
@@ -267,7 +260,7 @@ export default function AppSideBar({ children }: AppSideBarProps) {
                 </SidebarHeader>
                 <SidebarContent>
                     <SidebarGroup className="group/collapsible">
-                        <SidebarGroupLabel>Overview</SidebarGroupLabel>
+                        <SidebarGroupLabel>General</SidebarGroupLabel>
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton
@@ -392,7 +385,7 @@ export default function AppSideBar({ children }: AppSideBarProps) {
                 </SidebarFooter>
                 <SidebarRail />
             </Sidebar>
-            <SidebarInset>
+            <SidebarInset className="bg-[#F7FAFC] dark:bg-[#171923]">
                 <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-1" />
@@ -417,7 +410,7 @@ export default function AppSideBar({ children }: AppSideBarProps) {
                         </Breadcrumb>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                <div className="flex  flex-1 flex-col gap-4 p-4 pt-0">
                     {children}
                 </div>
             </SidebarInset>

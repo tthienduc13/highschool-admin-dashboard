@@ -35,14 +35,17 @@ export const useLoginMutation = () => {
                     roleName: roleName,
                     lastLoginAt: userData.lastLoginAt,
                 });
-                if (roleName?.toLowerCase() !== "admin") {
+                if (
+                    roleName?.toLowerCase() !== "admin" ||
+                    roleName.toLocaleLowerCase() !== "moderator"
+                ) {
                     toast({
                         title: "You are not allowed",
                         description: "Please visit highschool.vn for more",
                         variant: "destructive",
                     });
                 } else {
-                    router.push("/overview");
+                    router.push("/");
                 }
             }
         },

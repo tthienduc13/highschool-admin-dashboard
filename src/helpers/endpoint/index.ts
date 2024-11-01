@@ -10,15 +10,6 @@ const endpointAuth = {
     SIGN_IN: `${prefixUserServices}${prefixVersion}/authentication/login`,
 };
 
-const endpointRoadmap = {
-    CREATE_ROADMAP: `${prefixAnalyseServices}${prefixVersion}/roadmap`,
-    CREATE_ROADMAP_DETAIL: `${prefixAnalyseServices}${prefixVersion}/roadmap/detail`,
-};
-
-const endpointDocument = {
-    GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents`,
-};
-
 const endpointUser = {
     GET_USER: `${prefixUserServices}${prefixVersion}/users`,
     UPDATE_STATUS_USER: `${prefixUserServices}${prefixVersion}/users/status`,
@@ -28,8 +19,17 @@ const endpointUser = {
     CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`,
 };
 
+const endpointRoadmap = {
+    CREATE_ROADMAP: `${prefixAnalyseServices}${prefixVersion}/roadmap`,
+    CREATE_ROADMAP_DETAIL: `${prefixAnalyseServices}${prefixVersion}/roadmap/detail`,
+};
+
+const endpointDocument = {
+    GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents`,
+};
+
 const endpointSubject = {
-    GET_ALL_SUBJECTS: `${prefixDocumentServices}${prefixVersion}/subjects`,
+    GET_ALL_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects`,
     GET_BY_ID: (id: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
     CREATE_SUBJECT: `${prefixDocumentServices}${prefixVersion}/subject`,
