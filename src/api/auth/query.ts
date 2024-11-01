@@ -10,6 +10,7 @@ export const useLoginMutation = () => {
     const router = useRouter();
     const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
     const { toast } = useToast();
+
     return useMutation({
         mutationFn: ({
             email,
@@ -20,32 +21,31 @@ export const useLoginMutation = () => {
         }) => login({ email, password }),
         onSuccess: (data) => {
             if (data.status === 200) {
-                const { token, isNewUser, roleName, ...userData } = data.data!;
+                const { token, roleName, ...userData } = data.data!;
                 webCookieStorage.setToken(token);
-                if (isNewUser) {
-                    webCookieStorage.setIsNewUser(JSON.stringify(isNewUser));
-                }
+
                 setUserInfo({
                     userId: userData.userId,
                     email: userData.email,
                     userName: userData.username,
-                    isNewUser: isNewUser,
                     fullName: userData.fullname,
                     image: userData.image,
                     roleName: roleName,
                     lastLoginAt: userData.lastLoginAt,
                 });
+
                 if (
-                    roleName?.toLowerCase() !== "admin" ||
-                    roleName.toLocaleLowerCase() !== "moderator"
+                    roleName?.toLowerCase() === "admin" ||
+                    roleName?.toLowerCase() === "moderator"
                 ) {
+                    router.push("/");
+                } else {
                     toast({
-                        title: "You are not allowed",
-                        description: "Please visit highschool.vn for more",
+                        title: "Access Denied",
+                        description:
+                            "You are not authorized to access this system. Please visit highschool.vn for more information.",
                         variant: "destructive",
                     });
-                } else {
-                    router.push("/");
                 }
             }
         },
