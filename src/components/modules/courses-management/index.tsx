@@ -4,11 +4,25 @@ import { useCoursesQuery } from "@/api/course/query";
 import { DataTable } from "@/components/core/commons/table";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
-import { CourseColumns } from "./columns";
+import { CourseColumns } from "../../core/commons/tables/course-table/columns";
 import { useDebounceValue } from "@/hooks/use-debounce-value";
+import { IconInfoCircle, IconPlus, IconSearch } from "@tabler/icons-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import { Hint } from "@/components/core/commons/hint";
+
+const CreateCourseModal = dynamic(
+    () =>
+        import("@/components/core/commons/modals/create-course-modal").then(
+            (mod) => mod.CreateCourseModal
+        ),
+    { ssr: false }
+);
 
 function CoursesModule() {
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
 
     const debounceSearch = useDebounceValue(searchQuery, 300);
 
@@ -23,20 +37,54 @@ function CoursesModule() {
         search: debounceSearch,
     });
     return (
-        <div className="w-full flex flex-row h-[calc(100dvh-64px-16px)] rounded-lg bg-background p-4">
-            <DataTable
-                setSearchQuery={setSearchQuery}
-                data={data?.data ?? []}
-                columns={CourseColumns}
-                page={pageIndex}
-                pageSize={pageSize}
-                totalCount={data?.totalCount ?? 0}
-                isLoading={isLoading}
-                totalPage={data?.totalPages ?? 0}
-                setPagination={setPagination}
-                sectionTitle="All courses"
+        <>
+            <CreateCourseModal
+                open={openCreateModal}
+                onClose={() => setOpenCreateModal(false)}
             />
-        </div>
+            <div className="w-full flex flex-row h-[calc(100dvh-64px-16px)] rounded-lg bg-background p-4">
+                <div className="flex flex-col gap-y-4 w-full h-full">
+                    <div className="flex flex-row items-center justify-between">
+                        <div className="text-3xl font-bold text-primary">
+                            Courses ({data?.totalCount})
+                        </div>
+                        <div className="flex flex-row gap-2">
+                            <div className="flex flex-row items-center px-2 border rounded-md">
+                                <IconSearch size={18} />
+                                <Input
+                                    onChange={(e) =>
+                                        setSearchQuery(e.target.value)
+                                    }
+                                    placeholder="Search by course name"
+                                    className="border-none outline-none shadow-none focus-visible:ring-0"
+                                />
+                            </div>
+                            <Button onClick={() => setOpenCreateModal(true)}>
+                                <IconPlus />
+                                Add new
+                            </Button>
+                            <Hint label="Instruction" side="bottom">
+                                <Button size={"icon"} variant={"ghost"}>
+                                    <IconInfoCircle size={24} />
+                                </Button>
+                            </Hint>
+                        </div>
+                    </div>
+                    <DataTable
+                        setSearchQuery={setSearchQuery}
+                        data={data?.data ?? []}
+                        columns={CourseColumns}
+                        page={pageIndex}
+                        pageSize={pageSize}
+                        totalCount={data?.totalCount ?? 0}
+                        isLoading={isLoading}
+                        totalPage={data?.totalPages ?? 0}
+                        setPagination={setPagination}
+                        sectionTitle="All courses"
+                    />
+                </div>
+            </div>
+        </>
     );
 }
 

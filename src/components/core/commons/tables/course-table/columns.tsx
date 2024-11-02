@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/lib/utils";
 import { Course } from "@/api/course/type";
 import { IconArrowsUpDown } from "@tabler/icons-react";
+import { OptionAction } from "./option-action";
 
 export const CourseColumns: ColumnDef<Course>[] = [
     {
@@ -70,9 +71,13 @@ export const CourseColumns: ColumnDef<Course>[] = [
         header: "Views",
         cell: ({ row }) => <span>{row.original.view ?? 0}</span>,
     },
-    // {
-    //     id: "actions",
-    //     header: "Actions",
-    //     cell: ({ row }) => <ViewAction courseId={row.original.id} />,
-    // },
+    {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+            <div className="w-full flex justify-center">
+                <OptionAction courseId={row.original.id} />
+            </div>
+        ),
+    },
 ];

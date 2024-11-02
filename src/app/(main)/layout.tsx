@@ -12,7 +12,7 @@ export default async function RootLayout({
     const hasToken = cookieStore.has(constants.ACCESS_TOKEN);
     if (!hasToken) redirect("/sign-in");
     return (
-        <div className="h-screen w-screen no-scrollbar">
+        <div vaul-drawer-wrapper="" className="h-screen w-screen no-scrollbar">
             <RootMainLayout>{children}</RootMainLayout>
         </div>
     );

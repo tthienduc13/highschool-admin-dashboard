@@ -35,10 +35,8 @@ import {
     IconChevronLeft,
     IconChevronRight,
     IconLoader2,
-    IconSearch,
 } from "@tabler/icons-react";
 import { RowPerPageOptions } from "@/constants/table-pagination";
-import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -65,8 +63,6 @@ export function DataTable<TData, TValue>({
     totalCount,
     setPagination,
     isLoading,
-    sectionTitle,
-    setSearchQuery,
 }: DataTableProps<TData, TValue>) {
     const [hoveredRow, setHoveredRow] = useState<number | null>(null);
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -90,19 +86,6 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="w-full h-full flex flex-col gap-y-4 ">
-            <div className="flex flex-row items-center justify-between">
-                <div className="text-3xl font-bold text-primary">
-                    {sectionTitle}
-                </div>
-                <div className="flex flex-row items-center px-2 border rounded-md">
-                    <IconSearch />
-                    <Input
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search by course name"
-                        className="border-none outline-none shadow-none focus-visible:ring-0"
-                    />
-                </div>
-            </div>
             <ScrollArea className="flex-1 rounded-md border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <Table>
                     <TableHeader>
@@ -275,7 +258,7 @@ export function DataTable<TData, TValue>({
                             onClick={() =>
                                 setPagination({ pageIndex: page + 1, pageSize })
                             }
-                            disabled={page === totalPage}
+                            disabled={totalPage === 0 || page === totalPage}
                             className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                         >
                             <IconChevronRight size={16} />

@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Class } from "./type";
-import { getAllCourses } from "./api";
+import { createSubject, deleteCourse, getAllCourses } from "./api";
+import { useToast } from "@/hooks/use-toast";
 
 export const useCoursesQuery = ({
     search,
@@ -22,5 +23,56 @@ export const useCoursesQuery = ({
                 pageSize: pageSize,
                 grade: grade,
             }),
+    });
+};
+
+export const useCreateCourseMutation = () => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["create", "course"],
+        mutationFn: createSubject,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["courses"],
+            });
+            console.log(data);
+            toast({
+                title: data.message,
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Something error occured",
+                description: "Please try again later",
+                variant: "destructive",
+            });
+        },
+    });
+};
+
+export const useDeleteCourseMutation = () => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["delete"],
+        mutationFn: deleteCourse,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["courses"],
+            });
+            toast({
+                title: data.message ?? "Delete successfully",
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Something error occured",
+                description: "Please try again later",
+                variant: "destructive",
+            });
+        },
     });
 };
