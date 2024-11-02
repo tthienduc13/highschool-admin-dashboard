@@ -28,8 +28,13 @@ const endpointDocument = {
     GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents`,
 };
 
+const endpointCategory = {
+    GET_ALL_CATEGORY: `${prefixDocumentServices}${prefixVersion}/categories`,
+};
 const endpointSubject = {
     GET_ALL_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects`,
+    DELETE_COURSE: (courseId: string) =>
+        `${prefixDicussionServices}${prefixVersion}/subject/${courseId}`,
     GET_BY_ID: (id: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
     CREATE_SUBJECT: `${prefixDocumentServices}${prefixVersion}/subject`,
@@ -99,4 +104,5 @@ export {
     endPointTag,
     endPointVideo,
     endpointSearch,
+    endpointCategory,
 };

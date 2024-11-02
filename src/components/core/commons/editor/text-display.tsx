@@ -1,4 +1,3 @@
-// import type { JSONContent } from "@tiptap/react";
 import React from "react";
 import { FilterXSS, getDefaultWhiteList } from "xss";
 

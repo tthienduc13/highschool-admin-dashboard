@@ -1,4 +1,4 @@
-import SignInForm from "@/components/core/forms/sign-in-form";
+import SignInForm from "@/components/core/commons/forms/sign-in-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "@public/colored-logo.svg";
