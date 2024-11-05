@@ -24,7 +24,7 @@ export const UploadAvatarModal = ({
 
     try {
       const data = await uploadImage({ file });
-      activeEditor?.chain().focus().setImage({ src: data }).run();
+      activeEditor?.chain().focus().setImageCustom({ src: data, alignment: "left" }).run();
       onOpenChange();
     } catch (error) {
       console.error('Upload failed:', error);

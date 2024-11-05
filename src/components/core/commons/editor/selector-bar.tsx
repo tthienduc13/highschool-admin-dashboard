@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { HeadingSelector } from './heading-seletor';
 import { cn } from '@/lib/utils';
 import EditorUploadImage from '@/components/ui/editor/editor-upload-image';
-
+import { EditorUploadFile } from '@/components/ui/editor/editor-upload-file';
 export interface SelectorBarProps {
   activeEditor: Editor | null;
 }
@@ -126,7 +126,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
       <Separator orientation="vertical" className="h-10" />
 
       <Button
-        onClick={() => activeEditor.chain().focus().setTextAlign('left').run()}
+        onClick={() => activeEditor.chain().focus().setAlignCustom('left').run()}
         variant={'ghost'}
         size={'icon'}
         className={cn(
@@ -138,7 +138,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
       </Button>
       <Button
         onClick={() =>
-          activeEditor.chain().focus().setTextAlign('center').run()
+          activeEditor.chain().focus().setAlignCustom('center').run()
         }
         variant={'ghost'}
         size={'icon'}
@@ -150,7 +150,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
         <IconAlignCenter size={18} />
       </Button>
       <Button
-        onClick={() => activeEditor.chain().focus().setTextAlign('right').run()}
+        onClick={() => activeEditor.chain().focus().setAlignCustom('right').run()}
         variant={'ghost'}
         size={'icon'}
         className={cn(
@@ -162,7 +162,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
       </Button>
       <Button
         onClick={() =>
-          activeEditor.chain().focus().setTextAlign('justify').run()
+          activeEditor.chain().focus().setAlignCustom('justify').run()
         }
         variant={'ghost'}
         size={'icon'}
@@ -183,6 +183,17 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
       />
 
       <EditorUploadImage activeEditor={activeEditor} />
+
+      <EditorUploadFile activeEditor={activeEditor} />
+
+      {/* <Button
+        onClick={() => activeEditor.chain().focus().wrapImagesInRow().run()}
+      >
+        Wrap Images in Row
+      </Button> */}
+
+
+
     </div>
   );
 };

@@ -30,6 +30,7 @@ export function ComboboxTag(props: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
+  //const [search, setSearch] = React.useState(''); // Search state
   //const debouncedSearch = useDebounceValue(search, 300);
 
   const [{ pageIndex, pageSize }] =
