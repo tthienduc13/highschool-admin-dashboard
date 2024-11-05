@@ -14,13 +14,15 @@ import { Color } from '@tiptap/extension-color';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import Heading from '@tiptap/extension-heading';
-import Image from '@tiptap/extension-image';
 
 import type { Extension, useEditor } from '@tiptap/react';
 
 import { EmojiReplacer } from './extension/emoji-replacer';
 import { HighlightExtension } from '@/lib/editor';
 import { cx } from 'class-variance-authority';
+import { ImageCustom } from './extension/image-custom';
+import { AlignCustom } from './extension/text-align-custom';
+import { ImageRow } from './extension/image-row';
 
 const grayBorder = 'border-b-[2px]';
 const blueBorder = 'focus:border-b-blue focus:border-b-[2px]';
@@ -82,10 +84,6 @@ export const customEditorConfig = (
     Superscript,
     TextStyle,
     Color,
-    TextAlign.configure({
-      types: ['heading', 'paragraph'],
-      defaultAlignment: 'left'
-    }),
     Heading,
     HighlightExtension.configure({
       multicolor: true
@@ -94,7 +92,11 @@ export const customEditorConfig = (
     History.configure({
       depth: 20
     }),
-    Image,
+    ImageCustom,
+    AlignCustom.configure({
+      types: ['paragraph', 'heading', 'imageCustom', 'img'],
+    }),
+    ImageRow,
     ...(extensions || [])
   ],
   editorProps: {

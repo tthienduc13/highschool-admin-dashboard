@@ -76,8 +76,8 @@ const endPointTag = {
 };
 
 const endPointBlog = {
-    CREATE_BLOG: `${prefixDicussionServices}${prefixVersion}/new`,
-    GET_ALL_BLOG: `${prefixDicussionServices}${prefixVersion}/news`,
+    CREATE_BLOG: `${prefixMediaServices}${prefixVersion}/new`,
+    GET_ALL_BLOG: `${prefixMediaServices}${prefixVersion}/news`,
 };
 
 const externalEndpoint = {

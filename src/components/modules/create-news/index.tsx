@@ -11,15 +11,24 @@ import { Bold, Italic, List, Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
 import { ContentBlog } from "./content-blog";
+import { Toast } from "@/components/ui/toast";
+import { useCreateBlogMutation } from "@/api/news/news.query";
+import { useUploadImageToCloudinary } from "@/api/external/cloudinary/upload-image.query";
+import { useToast } from "@/hooks/use-toast";
 
 function CreateNewsModule() {
     const titleHeading = "Create News";
     const [selectedProvince, setSelectedProvince] = useState<string>('');
     const [thumbnail, setThumbnail] = useState<string | null>(null);
+    const [image, setImage] = useState<File | null>(null);
     const [tag, setTag] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [contentHtml, setContentHtml] = useState<string>('');
     const [title, setTitle] = useState<string>('');
+    const { toast } = useToast();
+
+    const { mutateAsync: createBlogMutation, isPending: isLoading } =
+        useCreateBlogMutation();
 
     const { data: countryData } = useQuery({
         queryKey: ['province'],
@@ -29,6 +38,7 @@ function CreateNewsModule() {
     const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
+            setImage(file);
             const reader = new FileReader()
             reader.onloadend = () => {
                 setThumbnail(reader.result as string)
@@ -36,6 +46,49 @@ function CreateNewsModule() {
             reader.readAsDataURL(file)
         }
     }
+
+    const resetData = () => {
+        setSelectedProvince('');
+        setThumbnail(null);
+        setImage(null);
+        setTag('');
+        setContent('');
+        setContentHtml('');
+        setTitle('');
+    }
+
+    const handleCreateBlog = async () => {
+        toast({
+            title: 'Creating...',
+            variant: 'default',
+            description: 'Blog is being created'
+        });
+
+        try {
+            const result = await createBlogMutation({
+                newsTagId: tag,
+                newName: title,
+                content: content,
+                contentHtml: contentHtml,
+                image: image as File,
+                location: selectedProvince
+            });
+
+            toast({
+                title: 'Success',
+                variant: 'default',
+                description: result.message
+            });
+
+            resetData();
+        } catch (error: any) {
+            toast({
+                title: 'Failed',
+                variant: 'destructive',
+                description: error.message
+            })
+        }
+    };
 
 
     return (
@@ -135,6 +188,14 @@ function CreateNewsModule() {
                             />
                         </div>
                     </div>
+
+                    <Button
+                        className="w-full"
+                        onClick={handleCreateBlog}
+                        disabled={isLoading}
+                    >
+                        Save News
+                    </Button>
                 </CardContent>
             </Card>
         </div>
