@@ -80,11 +80,11 @@ function CreateNewsModule() {
             });
 
             resetData();
-        } catch (error: any) {
+        } catch {
             toast({
                 title: 'Failed',
                 variant: 'destructive',
-                description: error.message
+                description: 'Failed to create news'
             })
         }
     };

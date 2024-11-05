@@ -5,8 +5,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../too
 import { FileUp } from 'lucide-react';
 import { Editor } from '@tiptap/core';
 import { Input } from '../input';
+import * as mammoth from "mammoth/mammoth.browser";
 
-const mammoth = require("mammoth/mammoth.browser");
 
 type EditorUploadImageProp = {
     activeEditor: Editor | null;

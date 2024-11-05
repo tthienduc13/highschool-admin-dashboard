@@ -4,7 +4,7 @@ import { mergeAttributes, Node } from '@tiptap/core';
 export interface ImageOptions {
     inline: boolean;
     allowBase64: boolean;
-    HTMLAttributes: Record<string, any>;
+    HTMLAttributes: Record<string, string>;
 }
 
 declare module '@tiptap/core' {
