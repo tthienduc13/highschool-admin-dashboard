@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
-import { Bold, Italic, List, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
 import { ContentBlog } from "./content-blog";

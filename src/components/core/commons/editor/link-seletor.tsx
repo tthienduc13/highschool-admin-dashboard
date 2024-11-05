@@ -13,7 +13,7 @@ export function isValidUrl(url: string) {
   try {
     new URL(url);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -26,7 +26,7 @@ export function getUrlFromString(str: string) {
   if (trimmedStr.includes('.') && !trimmedStr.includes(' ')) {
     try {
       return new URL(`https://${trimmedStr}`).toString();
-    } catch (e) {
+    } catch {
       return null;
     }
   }
