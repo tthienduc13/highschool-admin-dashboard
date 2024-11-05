@@ -80,3 +80,15 @@ export const deleteCourse = async (
         throw error;
     }
 };
+
+export const getCourseById = async (courseId: string): Promise<Course> => {
+    try {
+        const { data } = await axiosServices.get(
+            endpointSubject.GET_BY_ID(courseId)
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while getting course detail", courseId, error);
+        throw error;
+    }
+};

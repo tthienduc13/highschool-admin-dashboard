@@ -1,7 +1,7 @@
 import StudentManagementModule from "@/components/modules/student-management";
 
-function StudentManagementPage() {
+function UserManagementPage() {
     return <StudentManagementModule />;
 }
 
-export default StudentManagementPage;
+export default UserManagementPage;

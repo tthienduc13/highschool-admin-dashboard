@@ -5,12 +5,15 @@ import { subscribeWithSelector } from "zustand/middleware";
 export interface UserTableStoreProps {
     selectedUser: string;
     openUserInfo: boolean;
+    openCreateModer: boolean;
 }
 
 interface UserTableState extends UserTableStoreProps {
     setSelectedUser: (email: string) => void;
     onOpenUserInfo: () => void;
     onCloseUserInfo: () => void;
+    onOpenCreateModer: () => void;
+    onCloseCreateModer: () => void;
 }
 
 export type UserTableStore = ReturnType<typeof createUserTableStore>;
@@ -21,6 +24,7 @@ export const createUserTableStore = (
     const DEFAULT_PROPS: UserTableStoreProps = {
         selectedUser: "",
         openUserInfo: false,
+        openCreateModer: false,
     };
 
     return createStore<UserTableState>()(
@@ -31,10 +35,22 @@ export const createUserTableStore = (
                 set({ selectedUser: email });
             },
             onOpenUserInfo: () => {
-                set({ openUserInfo: true });
+                set({ openUserInfo: true, openCreateModer: false });
             },
             onCloseUserInfo: () => {
                 set({ openUserInfo: false, selectedUser: "" });
+            },
+            onOpenCreateModer: () => {
+                set({
+                    openCreateModer: true,
+                    selectedUser: "",
+                    openUserInfo: false,
+                });
+            },
+            onCloseCreateModer: () => {
+                set({
+                    openCreateModer: false,
+                });
             },
         }))
     );

@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
     AudioWaveform,
-    BookOpen,
     ChevronRight,
     ChevronsUpDown,
     Command,
@@ -61,7 +60,12 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { IconBook, IconLayoutDashboard, IconNews } from "@tabler/icons-react";
+import {
+    IconBook,
+    IconBriefcase2,
+    IconLayoutDashboard,
+    IconNews,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { UserButton } from "./user-button";
 const data = {
@@ -91,7 +95,7 @@ const data = {
             items: [
                 {
                     title: "All courses",
-                    url: "/subject-management/courses",
+                    url: "/course-management/courses",
                 },
                 {
                     title: "Starred",
@@ -122,14 +126,15 @@ const data = {
                 },
             ],
         },
+
         {
-            title: "Documentation",
+            title: "Career Mentor",
             url: "#",
-            icon: BookOpen,
+            icon: IconBriefcase2,
             items: [
                 {
-                    title: "Introduction",
-                    url: "#",
+                    title: "MBTI",
+                    url: "/career-mentor/mbti",
                 },
                 {
                     title: "Get Started",
@@ -146,17 +151,17 @@ const data = {
             ],
         },
         {
-            title: "Settings",
-            url: "#",
+            title: "Master data",
+            url: "/master-data",
             icon: Settings2,
             items: [
                 {
-                    title: "General",
-                    url: "#",
+                    title: "Region",
+                    url: "/master-data/region",
                 },
                 {
-                    title: "Team",
-                    url: "#",
+                    title: "Schools",
+                    url: "/master-data/school",
                 },
                 {
                     title: "Billing",
@@ -270,6 +275,22 @@ export default function ModeratorSidebar({ children }: ModeratorSidebarProps) {
                                     <Link href={"/"}>
                                         <IconLayoutDashboard />{" "}
                                         <span>Dashboard</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroup>
+                    <SidebarGroup className="group/collapsible">
+                        <SidebarGroupLabel>Master Data</SidebarGroupLabel>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    asChild
+                                    tooltip={"Dashboard"}
+                                >
+                                    <Link href={"/master-data/region"}>
+                                        <IconLayoutDashboard />{" "}
+                                        <span>Region</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

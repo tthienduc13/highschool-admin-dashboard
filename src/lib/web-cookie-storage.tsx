@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { getCookie, setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
+import constants from "@/constants";
 // import Cookies from "js-cookie";
 
 const webCookieStorage = {
@@ -31,15 +32,11 @@ const webCookieStorage = {
     // },
 
     setToken(value: string, option?: OptionsType) {
-        setCookie("_access_token", value, option);
-    },
-
-    setIsNewUser(value: string, option?: OptionsType) {
-        setCookie("_is_new_user", value, option);
+        setCookie(constants.ACCESS_TOKEN, value, option);
     },
 
     getToken() {
-        return getCookie("_access_token");
+        return getCookie(constants.ACCESS_TOKEN);
     },
 };
 

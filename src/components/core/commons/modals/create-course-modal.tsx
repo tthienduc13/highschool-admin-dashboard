@@ -26,7 +26,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CourseSchema } from "@/schemas/course";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -101,8 +100,7 @@ export const CreateCourseModal = ({
                         Start creating course
                     </CredenzaDescription>
                 </CredenzaHeader>
-                <Separator />
-                <CredenzaBody className="pb-4 pt-2 max-h-[500px] overflow-y-scroll no-scrollbar">
+                <CredenzaBody className="pb-4 max-h-[400px] overflow-y-scroll no-scrollbar">
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
@@ -283,7 +281,6 @@ export const CreateCourseModal = ({
                         </form>
                     </Form>
                 </CredenzaBody>
-                <Separator />
                 <CredenzaFooter>
                     <Button
                         disabled={isDisabled}

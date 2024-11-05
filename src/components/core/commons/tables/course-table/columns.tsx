@@ -4,13 +4,17 @@ import { formatDate } from "@/lib/utils";
 import { Course } from "@/api/course/type";
 import { IconArrowsUpDown } from "@tabler/icons-react";
 import { OptionAction } from "./option-action";
+import Link from "next/link";
 
 export const CourseColumns: ColumnDef<Course>[] = [
     {
         accessorKey: "image",
         header: "Course",
         cell: ({ row }) => (
-            <div className="flex items-center gap-x-2">
+            <Link
+                href={`/course-management/courses/${row.original.id}`}
+                className="flex items-center gap-x-2"
+            >
                 <Avatar className="size-8">
                     <AvatarImage
                         src={row.original.image ?? ""}
@@ -19,7 +23,7 @@ export const CourseColumns: ColumnDef<Course>[] = [
                     <AvatarFallback>{row.original.subjectName}</AvatarFallback>
                 </Avatar>
                 <span>{row.original.subjectName}</span>
-            </div>
+            </Link>
         ),
     },
     {

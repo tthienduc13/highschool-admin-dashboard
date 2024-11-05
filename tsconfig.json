@@ -23,6 +23,13 @@
             "@public/*": ["./public/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "src/components/core/commons/excel-import/steps/upload-step",
+        "src/components/modules/region-management"
+    ],
     "exclude": ["node_modules"]
 }

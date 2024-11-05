@@ -19,6 +19,30 @@ const endpointUser = {
     CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`,
 };
 
+const endpointSubject = {
+    GET_ALL_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects`,
+    DELETE_COURSE: (courseId: string) =>
+        `${prefixDicussionServices}${prefixVersion}/subject/${courseId}`,
+    GET_BY_ID: (id: string) =>
+        `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
+    CREATE_SUBJECT: `${prefixDocumentServices}${prefixVersion}/subject`,
+    GET_BY_SLUG: `${prefixDocumentServices}${prefixVersion}/subject/slug`,
+};
+
+const endpoinChapter = {
+    GET_ALL_CHAPTER_BY_COURSE: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/chapter/subject/${courseId}`,
+    CREATE_CHAPTER_LIST: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/chapters/subject/${courseId}`,
+};
+
+const endpointInformation = {
+    CREATE_PROVINCES: `${prefixDocumentServices}${prefixVersion}/information/provinces`,
+    GET_PROVINCES: `${prefixDocumentServices}${prefixVersion}/information/provinces`,
+    CREATE_SCHOOLS: `${prefixDocumentServices}${prefixVersion}/information/province/schools`,
+    GET_SCHOOLS: `${prefixDocumentServices}${prefixVersion}/information/schools`,
+};
+
 const endpointRoadmap = {
     CREATE_ROADMAP: `${prefixAnalyseServices}${prefixVersion}/roadmap`,
     CREATE_ROADMAP_DETAIL: `${prefixAnalyseServices}${prefixVersion}/roadmap/detail`,
@@ -31,25 +55,9 @@ const endpointDocument = {
 const endpointCategory = {
     GET_ALL_CATEGORY: `${prefixDocumentServices}${prefixVersion}/categories`,
 };
-const endpointSubject = {
-    GET_ALL_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects`,
-    DELETE_COURSE: (courseId: string) =>
-        `${prefixDicussionServices}${prefixVersion}/subject/${courseId}`,
-    GET_BY_ID: (id: string) =>
-        `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
-    CREATE_SUBJECT: `${prefixDocumentServices}${prefixVersion}/subject`,
-    GET_BY_SLUG: `${prefixDocumentServices}${prefixVersion}/subject/slug`,
-};
 
 const endpointSearch = {
     SEARCH: `${prefixAnalyseServices}${prefixVersion}/search`,
-};
-
-const endpoinChapter = {
-    GET_ALL_CHAPTER_BY_SUBJECTS: (subjectId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/subject/${subjectId}`,
-    CREATE_CHAPTER: (subjectId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/subject/${subjectId}`,
 };
 
 const endpointLesson = {
@@ -105,4 +113,5 @@ export {
     endPointVideo,
     endpointSearch,
     endpointCategory,
+    endpointInformation,
 };

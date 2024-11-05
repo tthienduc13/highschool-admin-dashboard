@@ -80,16 +80,16 @@ const data = {
             isActive: true,
             items: [
                 {
-                    title: "Student",
-                    url: "/user-management/student",
+                    title: "Users",
+                    url: "/user-management/user",
                 },
                 {
                     title: "Starred",
                     url: "#",
                 },
                 {
-                    title: "Settings",
-                    url: "#",
+                    title: "Moderator",
+                    url: "/user-management/moderator",
                 },
             ],
         },

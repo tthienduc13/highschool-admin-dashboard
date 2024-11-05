@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Class } from "./type";
-import { createSubject, deleteCourse, getAllCourses } from "./api";
+import {
+    createSubject,
+    deleteCourse,
+    getAllCourses,
+    getCourseById,
+} from "./api";
 import { useToast } from "@/hooks/use-toast";
 
 export const useCoursesQuery = ({
@@ -74,5 +79,12 @@ export const useDeleteCourseMutation = () => {
                 variant: "destructive",
             });
         },
+    });
+};
+
+export const useGetCourseByIdQuery = (courseId: string) => {
+    return useQuery({
+        queryKey: ["course-detail", courseId],
+        queryFn: () => getCourseById(courseId),
     });
 };

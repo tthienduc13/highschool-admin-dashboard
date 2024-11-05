@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import { Hint } from "@/components/core/commons/hint";
+import { ControlBar } from "@/components/core/commons/table/control-bar";
 
 const CreateCourseModal = dynamic(
     () =>
@@ -42,7 +43,7 @@ function CoursesModule() {
                 open={openCreateModal}
                 onClose={() => setOpenCreateModal(false)}
             />
-            <div className="w-full flex flex-row h-[calc(100dvh-64px-16px)] rounded-lg bg-background p-4">
+            <div className="w-full flex flex-row h-[calc(100dvh-64px-32px)] rounded-lg bg-background p-4">
                 <div className="flex flex-col gap-y-4 w-full h-full">
                     <div className="flex flex-row items-center justify-between">
                         <div className="text-3xl font-bold text-primary">
@@ -56,10 +57,13 @@ function CoursesModule() {
                                         setSearchQuery(e.target.value)
                                     }
                                     placeholder="Search by course name"
-                                    className="border-none outline-none shadow-none focus-visible:ring-0"
+                                    className="border-none outline-none shadow-none focus-visible:ring-0 min-w-[200px]"
                                 />
                             </div>
-                            <Button onClick={() => setOpenCreateModal(true)}>
+                            <Button
+                                disabled={isLoading}
+                                onClick={() => setOpenCreateModal(true)}
+                            >
                                 <IconPlus />
                                 Add new
                             </Button>
@@ -70,17 +74,22 @@ function CoursesModule() {
                             </Hint>
                         </div>
                     </div>
-                    <DataTable
-                        setSearchQuery={setSearchQuery}
-                        data={data?.data ?? []}
-                        columns={CourseColumns}
-                        page={pageIndex}
-                        pageSize={pageSize}
+                    <div className="flex-1 overflow-scroll">
+                        <DataTable
+                            columns={CourseColumns}
+                            pageSize={pageSize}
+                            data={data?.data ?? []}
+                            page={pageIndex}
+                            totalPage={data?.totalPages ?? 0}
+                            isLoading={isLoading}
+                        />
+                    </div>
+                    <ControlBar
+                        currentPage={pageIndex}
                         totalCount={data?.totalCount ?? 0}
-                        isLoading={isLoading}
                         totalPage={data?.totalPages ?? 0}
                         setPagination={setPagination}
-                        sectionTitle="All courses"
+                        pageSize={pageSize}
                     />
                 </div>
             </div>
