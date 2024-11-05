@@ -14,6 +14,7 @@ export function isValidUrl(url: string) {
     new URL(url);
     return true;
   } catch (e) {
+    console.error(e);
     return false;
   }
 }
@@ -27,6 +28,7 @@ export function getUrlFromString(str: string) {
     try {
       return new URL(`https://${trimmedStr}`).toString();
     } catch (e) {
+      console.error(e);
       return null;
     }
   }

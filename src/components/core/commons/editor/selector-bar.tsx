@@ -20,10 +20,7 @@ import { LinkSelector } from './link-seletor';
 import { useState } from 'react';
 import { HeadingSelector } from './heading-seletor';
 import { cn } from '@/lib/utils';
-import { FileUp, Image } from 'lucide-react';
-import { UpdateIcon } from '@radix-ui/react-icons';
 import EditorUploadImage from '@/components/ui/editor/editor-upload-image';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { EditorUploadFile } from '@/components/ui/editor/editor-upload-file';
 export interface SelectorBarProps {
   activeEditor: Editor | null;

@@ -7,14 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
-import { Bold, Italic, List, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
 import { ContentBlog } from "./content-blog";
-import { Toast } from "@/components/ui/toast";
 import { useCreateBlogMutation } from "@/api/news/news.query";
-import { useUploadImageToCloudinary } from "@/api/external/cloudinary/upload-image.query";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 function CreateNewsModule() {
     const titleHeading = "Create News";
@@ -120,7 +119,8 @@ function CreateNewsModule() {
                             </Label>
                             <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
                                 {thumbnail ? (
-                                    <img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
+                                    //<img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
+                                    <Image src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
                                 ) : (
                                     <div className="py-8">
                                         <Upload className="mx-auto h-12 w-12 text-gray-400" />

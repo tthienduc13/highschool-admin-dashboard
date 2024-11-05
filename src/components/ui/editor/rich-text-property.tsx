@@ -17,7 +17,7 @@ export const RichTextProperty: React.FC<RichTextPropertyProps> = ({
   return (
     <Button
       aria-label={label}
-      onMouseDown={(e: any) => e.preventDefault()}
+      onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => e.preventDefault()}
       onClick={onClick}
       variant={'ghost'}
       size={'icon'}

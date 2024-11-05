@@ -1,5 +1,5 @@
 import { endPointBlog } from "@/helpers/endpoint";
-import axiosServices, { axiosClientUpload } from "@/lib/axios";
+import { axiosClientUpload } from "@/lib/axios";
 import { News } from "./news.type";
 
 export const createBlog = async (data: News) => {

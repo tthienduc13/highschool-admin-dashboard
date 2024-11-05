@@ -1,7 +1,6 @@
 // extension/image-resize.ts
 
 import { Node, mergeAttributes } from '@tiptap/core';
-import { EditorView } from 'prosemirror-view';
 
 export const ImageResizeExtension = Node.create({
     name: 'imageResize',
@@ -42,7 +41,7 @@ export const ImageResizeExtension = Node.create({
     },
 
     addNodeView() {
-        return ({ node, editor, getPos }) => {
+        return ({ node, editor }) => {
             const dom = document.createElement('div');
             dom.style.position = 'relative';
             dom.style.display = 'inline-block';

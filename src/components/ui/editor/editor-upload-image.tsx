@@ -15,7 +15,6 @@ export interface UploadImageProps {
 export const EditorUploadImage: React.FC<UploadImageProps> = ({
   activeEditor
 }) => {
-  const [imageUrl, setImageUrl] = useState<string>('');
   const [changeAvatarOpen, setChangeAvatarOpen] = useState<boolean>(false);
 
   return (
@@ -39,7 +38,6 @@ export const EditorUploadImage: React.FC<UploadImageProps> = ({
       </Button>
 
       <UploadAvatarModal
-        setImageUrl={setImageUrl}
         open={changeAvatarOpen}
         onOpenChange={() => setChangeAvatarOpen(false)}
         activeEditor={activeEditor}

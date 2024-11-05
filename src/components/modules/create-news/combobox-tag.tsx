@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/popover';
 import { useQuery } from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
-import { useDebounceValue } from '@/hooks/use-debounce-value';
 import { useTagQuery } from '@/api/tag/tag.query';
 
 type Props = {
@@ -31,10 +30,10 @@ export function ComboboxTag(props: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
-  const [search, setSearch] = React.useState(''); // Search state
-  const debouncedSearch = useDebounceValue(search, 300);
+  //const [search, setSearch] = React.useState(''); // Search state
+  //const debouncedSearch = useDebounceValue(search, 300);
 
-  const [{ pageIndex, pageSize }, setPagination] =
+  const [{ pageIndex, pageSize }] =
     React.useState<PaginationState>({
       pageIndex: -1,
       pageSize: 5
@@ -44,7 +43,7 @@ export function ComboboxTag(props: Props) {
     useTagQuery({
       pageSize: pageSize,
       pageNumber: pageIndex,
-      search: debouncedSearch
+      //search: debouncedSearch
     })
   );
 
