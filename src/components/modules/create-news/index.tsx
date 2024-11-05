@@ -7,19 +7,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
-import { Bold, Italic, List, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
 import { ContentBlog } from "./content-blog";
+import { useCreateBlogMutation } from "@/api/news/news.query";
+import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 function CreateNewsModule() {
     const titleHeading = "Create News";
     const [selectedProvince, setSelectedProvince] = useState<string>('');
     const [thumbnail, setThumbnail] = useState<string | null>(null);
+    const [image, setImage] = useState<File | null>(null);
     const [tag, setTag] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [contentHtml, setContentHtml] = useState<string>('');
     const [title, setTitle] = useState<string>('');
+    const { toast } = useToast();
+
+    const { mutateAsync: createBlogMutation, isPending: isLoading } =
+        useCreateBlogMutation();
 
     const { data: countryData } = useQuery({
         queryKey: ['province'],
@@ -29,6 +37,7 @@ function CreateNewsModule() {
     const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
+            setImage(file);
             const reader = new FileReader()
             reader.onloadend = () => {
                 setThumbnail(reader.result as string)
@@ -36,6 +45,49 @@ function CreateNewsModule() {
             reader.readAsDataURL(file)
         }
     }
+
+    const resetData = () => {
+        setSelectedProvince('');
+        setThumbnail(null);
+        setImage(null);
+        setTag('');
+        setContent('');
+        setContentHtml('');
+        setTitle('');
+    }
+
+    const handleCreateBlog = async () => {
+        toast({
+            title: 'Creating...',
+            variant: 'default',
+            description: 'Blog is being created'
+        });
+
+        try {
+            const result = await createBlogMutation({
+                newsTagId: tag,
+                newName: title,
+                content: content,
+                contentHtml: contentHtml,
+                image: image as File,
+                location: selectedProvince
+            });
+
+            toast({
+                title: 'Success',
+                variant: 'default',
+                description: result.message
+            });
+
+            resetData();
+        } catch {
+            toast({
+                title: 'Failed',
+                variant: 'destructive',
+                description: 'Failed to create news'
+            })
+        }
+    };
 
 
     return (
@@ -67,7 +119,8 @@ function CreateNewsModule() {
                             </Label>
                             <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
                                 {thumbnail ? (
-                                    <img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
+                                    //<img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
+                                    <Image src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
                                 ) : (
                                     <div className="py-8">
                                         <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -135,6 +188,14 @@ function CreateNewsModule() {
                             />
                         </div>
                     </div>
+
+                    <Button
+                        className="w-full"
+                        onClick={handleCreateBlog}
+                        disabled={isLoading}
+                    >
+                        Save News
+                    </Button>
                 </CardContent>
             </Card>
         </div>

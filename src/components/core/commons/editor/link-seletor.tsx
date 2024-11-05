@@ -10,6 +10,7 @@ import { Editor } from "@tiptap/react";
 import { IconCheck, IconLink, IconUnlink } from "@tabler/icons-react";
 
 export function isValidUrl(url: string) {
+<<<<<<< HEAD
     try {
         new URL(url);
         return true;
@@ -23,6 +24,26 @@ export function getUrlFromString(str: string) {
     const trimmedStr = str.trim();
     if (isValidUrl(trimmedStr)) {
         return trimmedStr;
+=======
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function getUrlFromString(str: string) {
+  const trimmedStr = str.trim();
+  if (isValidUrl(trimmedStr)) {
+    return trimmedStr;
+  }
+  if (trimmedStr.includes('.') && !trimmedStr.includes(' ')) {
+    try {
+      return new URL(`https://${trimmedStr}`).toString();
+    } catch {
+      return null;
+>>>>>>> fd01f03c4da90211a9e692b9ed9e7c7f885a14c6
     }
     if (trimmedStr.includes(".") && !trimmedStr.includes(" ")) {
         try {

@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { Image as LucideImage } from 'lucide-react';
 import { Button } from '../button';
 import { UploadAvatarModal } from '../upload-image/upload-avatar-modal';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip';
 
 export interface UploadImageProps {
   activeEditor: Editor | null;
@@ -13,21 +15,29 @@ export interface UploadImageProps {
 export const EditorUploadImage: React.FC<UploadImageProps> = ({
   activeEditor
 }) => {
-  const [imageUrl, setImageUrl] = useState<string>('');
   const [changeAvatarOpen, setChangeAvatarOpen] = useState<boolean>(false);
 
   return (
     <>
       <Button
         type="button"
-        variant="link"
+        variant="ghost"
         onClick={() => setChangeAvatarOpen(true)}
+        className={cn(
+          'rounded-full',
+        )}
       >
-        <LucideImage size={18} />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild><LucideImage size={16} /></TooltipTrigger>
+            <TooltipContent>
+              <p>Upload image</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </Button>
 
       <UploadAvatarModal
-        setImageUrl={setImageUrl}
         open={changeAvatarOpen}
         onOpenChange={() => setChangeAvatarOpen(false)}
         activeEditor={activeEditor}

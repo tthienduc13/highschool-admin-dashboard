@@ -6,14 +6,12 @@ import { Editor } from '@tiptap/react';
 interface UploadAvatarModalProps {
   open: boolean;
   onOpenChange: () => void;
-  setImageUrl: (value: string) => void;
   activeEditor?: Editor | null;
 }
 
 export const UploadAvatarModal = ({
   open,
   onOpenChange,
-  setImageUrl,
   activeEditor
 }: UploadAvatarModalProps) => {
   const { mutateAsync: uploadImage, isPending: uploadPending } =
@@ -26,8 +24,7 @@ export const UploadAvatarModal = ({
 
     try {
       const data = await uploadImage({ file });
-      setImageUrl(data);
-      activeEditor?.chain().focus().setImage({ src: data }).run();
+      activeEditor?.chain().focus().setImageCustom({ src: data, alignment: "left" }).run();
       onOpenChange();
     } catch (error) {
       console.error('Upload failed:', error);
