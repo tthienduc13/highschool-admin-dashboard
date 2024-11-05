@@ -79,8 +79,8 @@ const endPointTheory = {
 };
 
 const endPointTag = {
-    GET_ALL_TAG: `${prefixDicussionServices}${prefixVersion}/newstags`,
-    CREATE_TAG: `${prefixDicussionServices}${prefixVersion}/newstag`,
+    GET_ALL_TAG: `${prefixMediaServices}${prefixVersion}/newstags`,
+    CREATE_TAG: `${prefixMediaServices}${prefixVersion}/newstag`,
 };
 
 const endPointBlog = {

@@ -2,7 +2,7 @@ import { useUserDetailQuery } from "@/api/user/query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserTableContext } from "@/stores/use-user-table-store";
-import { Display } from "../../editor/text-display";
+import { Display } from "../../../../ui/editor/text-display";
 import {
     IconBrandGoogleFilled,
     IconMail,
@@ -54,7 +54,7 @@ export const UserInfo = () => {
                                 {data?.data?.fullname}
                             </h2>
                             {data?.data?.provider.toLocaleLowerCase() ===
-                            "google" ? (
+                                "google" ? (
                                 <IconBrandGoogleFilled size={18} />
                             ) : (
                                 <IconMail size={18} />
