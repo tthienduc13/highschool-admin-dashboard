@@ -13,7 +13,8 @@ import { ComboboxTag } from "./combobox-tag";
 import { ContentBlog } from "./content-blog";
 import { useCreateBlogMutation } from "@/api/news/news.query";
 import { useToast } from "@/hooks/use-toast";
-import Image from "next/image";
+import { Editor } from "@tiptap/core";
+import { useUploadImageToCloudinary } from "@/api/external/cloudinary/upload-image.query";
 
 function CreateNewsModule() {
     const titleHeading = "Create News";
@@ -21,10 +22,12 @@ function CreateNewsModule() {
     const [thumbnail, setThumbnail] = useState<string | null>(null);
     const [image, setImage] = useState<File | null>(null);
     const [tag, setTag] = useState<string>('');
-    const [content, setContent] = useState<string>('');
-    const [contentHtml, setContentHtml] = useState<string>('');
     const [title, setTitle] = useState<string>('');
+    const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
+    const { mutateAsync: uploadImage } =
+        useUploadImageToCloudinary();
     const { toast } = useToast();
+    const contentHtml = editorInstance?.getHTML() ?? '';
 
     const { mutateAsync: createBlogMutation, isPending: isLoading } =
         useCreateBlogMutation();
@@ -33,6 +36,40 @@ function CreateNewsModule() {
         queryKey: ['province'],
         queryFn: getProvince
     });
+
+    const handleUploadImage = async (buffer: ArrayBuffer) => {
+        const file = new File([new Blob([buffer])], 'avatar.png', {
+            type: 'image/png'
+        });
+
+        try {
+            return await uploadImage({ file });
+        } catch (error) {
+            console.error('Upload failed:', error);
+            return "";
+        }
+    };
+
+    const handleFetchContent = async () => {
+        if (editorInstance) {
+            // Use storageCustom commands to retrieve data
+            const textContent = editorInstance.storage.storageCustom.contentText;
+            let htmlContent = editorInstance.storage.storageCustom.contentHtml;
+            const uploadedImages = editorInstance.storage.storageCustom.uploadedImages;
+
+            const replacementPromises = uploadedImages.map(async (image: string) => {
+                const urlImage = await handleUploadImage(image as unknown as ArrayBuffer);
+                htmlContent = htmlContent.replaceAll(image, urlImage);
+            });
+
+            // Wait for all replacements to complete
+            await Promise.all(replacementPromises);
+
+            return { textContent, htmlContent }
+        }
+
+        return { textContent: '', htmlContent: '' };
+    };
 
     const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -46,17 +83,8 @@ function CreateNewsModule() {
         }
     }
 
-    const resetData = () => {
-        setSelectedProvince('');
-        setThumbnail(null);
-        setImage(null);
-        setTag('');
-        setContent('');
-        setContentHtml('');
-        setTitle('');
-    }
-
     const handleCreateBlog = async () => {
+
         toast({
             title: 'Creating...',
             variant: 'default',
@@ -64,11 +92,13 @@ function CreateNewsModule() {
         });
 
         try {
+            const { textContent, htmlContent } = await handleFetchContent();
+
             const result = await createBlogMutation({
                 newsTagId: tag,
                 newName: title,
-                content: content,
-                contentHtml: contentHtml,
+                content: textContent,
+                contentHtml: htmlContent,
                 image: image as File,
                 location: selectedProvince
             });
@@ -78,8 +108,6 @@ function CreateNewsModule() {
                 variant: 'default',
                 description: result.message
             });
-
-            resetData();
         } catch {
             toast({
                 title: 'Failed',
@@ -88,6 +116,7 @@ function CreateNewsModule() {
             })
         }
     };
+
 
 
     return (
@@ -111,7 +140,6 @@ function CreateNewsModule() {
                         />
                     </div>
 
-                    {/* Thumbnail Upload Area */}
                     <div className="flex">
                         <div className="w-[45vw]">
                             <Label htmlFor="thumbnail" className="text-lg font-semibold">
@@ -119,8 +147,7 @@ function CreateNewsModule() {
                             </Label>
                             <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
                                 {thumbnail ? (
-                                    //<img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
-                                    <Image src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
+                                    <img src={thumbnail} alt="Thumbnail preview" className="max-h-48 mx-auto" />
                                 ) : (
                                     <div className="py-8">
                                         <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -182,9 +209,8 @@ function CreateNewsModule() {
                         </Label>
                         <div className="border-2 border-gray-200 rounded-lg overflow-hidden">
                             <ContentBlog
+                                setEditor={setEditorInstance}
                                 contentHtml={contentHtml}
-                                setContent={setContent}
-                                setContentHtml={setContentHtml}
                             />
                         </div>
                     </div>

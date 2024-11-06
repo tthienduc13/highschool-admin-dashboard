@@ -186,12 +186,6 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
 
       <EditorUploadFile activeEditor={activeEditor} />
 
-      {/* <Button
-        onClick={() => activeEditor.chain().focus().wrapImagesInRow().run()}
-      >
-        Wrap Images in Row
-      </Button> */}
-
 
 
     </div>
