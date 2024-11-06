@@ -23,6 +23,7 @@
         "@radix-ui/react-scroll-area": "^1.2.0",
         "@radix-ui/react-select": "^2.1.2",
         "@radix-ui/react-separator": "^1.1.0",
+        "@radix-ui/react-slider": "^1.2.1",
         "@radix-ui/react-slot": "^1.1.0",
         "@radix-ui/react-tabs": "^1.1.1",
         "@radix-ui/react-toast": "^1.2.2",
@@ -54,6 +55,7 @@
         "@tiptap/html": "^2.9.1",
         "@tiptap/pm": "^2.9.1",
         "@tiptap/react": "^2.9.1",
+        "@vidstack/react": "^1.12.12",
         "axios": "^1.7.7",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
@@ -81,6 +83,7 @@
         "tailwindcss-animate": "^1.0.7",
         "ts-essentials": "^10.0.3",
         "vaul": "^1.1.1",
+        "vidstack": "^1.12.12",
         "xss": "^1.0.15",
         "zod": "^3.23.8",
         "zustand": "^5.0.1"

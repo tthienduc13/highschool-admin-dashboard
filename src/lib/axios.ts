@@ -1,5 +1,5 @@
 import webCookieStorage from "./web-cookie-storage";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import { camelizeKeys } from "humps";
 
 const axiosServices = axios.create({
@@ -22,7 +22,7 @@ axiosServices.interceptors.request.use(
 );
 
 axiosServices.interceptors.response.use(
-    (res: AxiosResponse) => {
+    (res) => {
         if (
             res.headers["content-type"]?.includes("application/json") &&
             res.data
@@ -32,6 +32,15 @@ axiosServices.interceptors.response.use(
         return res;
     },
     async (err) => {
+        if (err.response) {
+            console.error(
+                "Response error:",
+                err.response.status,
+                err.response.data
+            );
+        } else {
+            console.error("Error:", err.message);
+        }
         return Promise.reject(err);
     }
 );

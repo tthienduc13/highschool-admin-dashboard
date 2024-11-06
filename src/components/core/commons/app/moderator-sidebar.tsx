@@ -94,11 +94,11 @@ const data = {
             isActive: true,
             items: [
                 {
-                    title: "All courses",
+                    title: "Published Course",
                     url: "/course-management/courses",
                 },
                 {
-                    title: "Starred",
+                    title: "Unpublished Course",
                     url: "#",
                 },
                 {

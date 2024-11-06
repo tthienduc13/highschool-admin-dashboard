@@ -1,38 +1,35 @@
 "use client";
 
-import { useGetCourseByIdQuery } from "@/api/course/query";
+import { useLessonQuery } from "@/api/lesson/query";
+import PageContainer from "@/components/core/layouts/page-container";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Tabs } from "./tabs";
-import PageContainer from "@/components/core/layouts/page-container";
-import dynamic from "next/dynamic";
-import { CourseDetail } from "./course-detail";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
+import { LessonDetail } from "./lesson-detail";
 
-const CourseContent = dynamic(
-    () => import("./course-content").then((mod) => mod.CourseContent),
-    { ssr: false }
-);
-
-interface CourseDetailModuleProps {
-    courseId: string;
+interface LessonDetailModuleProps {
+    lessonId: string;
 }
 
-export type Tab = "detail" | "flashcard" | "quiz" | "content";
+export type Tab = "detail" | "theory" | "flashcard" | "quiz";
 
-function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
-    const { data: courseData, isLoading } = useGetCourseByIdQuery(courseId);
+function LessonDetailModule({ lessonId }: LessonDetailModuleProps) {
     const router = useRouter();
     const pathName = usePathname();
 
+    const [tab, setTab] = useState<Tab>("detail");
+
     const handleBack = () => {
-        const coursePath = pathName.split(`/${courseId}`)[0];
+        const coursePath = pathName.split(`/${lessonId}`)[0];
         router.push(coursePath!);
     };
 
-    const [tab, setTab] = useState<Tab>("detail");
+    const { data: lessonData, isLoading } = useLessonQuery({
+        lessonId: lessonId,
+    });
 
     if (isLoading) {
         return (
@@ -52,21 +49,15 @@ function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
                         tab={tab}
                     />
                     <div className="w-full">
-                        {tab === "detail" && (
-                            <CourseDetail
-                                isLoading={isLoading}
-                                courseDetail={courseData}
-                            />
-                        )}
-                        {tab === "content" && (
-                            <CourseContent courseId={courseId} />
-                        )}
+                        <div className="grid grid-cols-3 gap-4">
+                            <Skeleton className="h-[400px] col-span-2 w-full" />
+                            <Skeleton className="h-[400px] w-full" />
+                        </div>
                     </div>
                 </div>
             </PageContainer>
         );
     }
-
     return (
         <PageContainer scrollable>
             <div className="w-full h-full flex flex-col gap-y-5">
@@ -81,28 +72,24 @@ function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
                         </Button>
                         <div className="flex flex-row items-center gap-2">
                             <h2 className="text-2xl font-bold">
-                                {courseData?.subjectName}
+                                {lessonData?.lessonName}
                             </h2>
-                            <div className="text-xs font-semibold bg-primary text-background px-2 py-1 rounded-full">
-                                Draft
-                            </div>
                         </div>
                     </div>
-                    <Button className="font-semibold">Publish course</Button>
                 </div>
                 <Tabs isLoading={isLoading} onTabChange={setTab} tab={tab} />
                 <div className="w-full">
                     {tab === "detail" && (
-                        <CourseDetail
+                        <LessonDetail
                             isLoading={isLoading}
-                            courseDetail={courseData}
+                            lessonDetail={lessonData!}
                         />
                     )}
-                    {tab === "content" && <CourseContent courseId={courseId} />}
+                    {/* {tab === "content" && <CourseContent courseId={courseId} />} */}
                 </div>
             </div>
         </PageContainer>
     );
 }
 
-export default CourseDetailModule;
+export default LessonDetailModule;

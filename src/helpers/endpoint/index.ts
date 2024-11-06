@@ -34,6 +34,17 @@ const endpoinChapter = {
         `${prefixDocumentServices}${prefixVersion}/chapter/subject/${courseId}`,
     CREATE_CHAPTER_LIST: (courseId: string) =>
         `${prefixDocumentServices}${prefixVersion}/chapters/subject/${courseId}`,
+    UPDATE_CHAPTER: `${prefixDocumentServices}${prefixVersion}/chapter`,
+};
+
+const endpointLesson = {
+    CREATE_LESSON_LIST: (chapterId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/chapter/${chapterId}/lessons`,
+    GET_ALL_LESSONS_BY_CHAPTER: (chapterId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/chapter/${chapterId}/lessons`,
+    GET_LESSON_BY_ID: (lessonId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/chapter/lesson/${lessonId}`,
+    PATCH_LESSON: `${prefixDocumentServices}${prefixVersion}/lesson`,
 };
 
 const endpointInformation = {
@@ -58,15 +69,6 @@ const endpointCategory = {
 
 const endpointSearch = {
     SEARCH: `${prefixAnalyseServices}${prefixVersion}/search`,
-};
-
-const endpointLesson = {
-    CREATE_LESSON_BY_CHAPTER: (chapterId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/${chapterId}/lesson`,
-    GET_ALL_LESSONS_BY_CHAPTER: (chapterId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/${chapterId}/lessons`,
-    GET_LESSON_BY_ID: (lessonId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/lesson/${lessonId}`,
 };
 
 const endPointTheory = {
