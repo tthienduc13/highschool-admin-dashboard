@@ -9,12 +9,18 @@ import { usePathname, useRouter } from "next/navigation";
 import { Tabs } from "./tabs";
 import { useState } from "react";
 import { LessonDetail } from "./lesson-detail";
+import dynamic from "next/dynamic";
 
 interface LessonDetailModuleProps {
     lessonId: string;
 }
 
 export type Tab = "detail" | "theory" | "flashcard" | "quiz";
+
+const LessonTheory = dynamic(
+    () => import("./lesson-theory").then((mod) => mod.LessonTheory),
+    { ssr: false }
+);
 
 function LessonDetailModule({ lessonId }: LessonDetailModuleProps) {
     const router = useRouter();
@@ -85,7 +91,7 @@ function LessonDetailModule({ lessonId }: LessonDetailModuleProps) {
                             lessonDetail={lessonData!}
                         />
                     )}
-                    {/* {tab === "content" && <CourseContent courseId={courseId} />} */}
+                    {tab === "theory" && <LessonTheory lessonId={lessonId} />}
                 </div>
             </div>
         </PageContainer>

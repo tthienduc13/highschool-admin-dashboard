@@ -72,6 +72,10 @@ const endpointSearch = {
 };
 
 const endPointTheory = {
+    GET_LESSON_THEORY: (lessonId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/theory/lesson/${lessonId}`,
+    GET_THEORY_BY_ID: (theoryId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/theory/${theoryId}`,
     CREATE_THEORY: (lessonId: string) =>
         `${prefixDocumentServices}${prefixVersion}/theory/lesson/${lessonId}`,
     UPDATE_THEORY: (theoryId: string) =>
