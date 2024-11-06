@@ -21,7 +21,7 @@ import { HighlightExtension } from '@/lib/editor';
 import { cx } from 'class-variance-authority';
 import { ImageCustom } from './extension/image-custom';
 import { AlignCustom } from './extension/text-align-custom';
-import { ImageRow } from './extension/image-row';
+import { storageCustom } from './extension/storage-custom';
 
 const grayBorder = 'border-b-[2px]';
 const blueBorder = 'focus:border-b-blue focus:border-b-[2px]';
@@ -95,7 +95,7 @@ export const customEditorConfig = (
     AlignCustom.configure({
       types: ['paragraph', 'heading', 'imageCustom', 'img'],
     }),
-    ImageRow,
+    storageCustom,
     ...(extensions || [])
   ],
   editorProps: {

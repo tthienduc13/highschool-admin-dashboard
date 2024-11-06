@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
             setImageCustom: (options: { src: string; alt?: string; title?: string; alignment?: 'left' | 'center' | 'right'; width?: string; height?: string }) => ReturnType;
             updateImageAlignment: (alignment: 'left' | 'center' | 'right') => ReturnType;
             updateImageSize: (width: string, height: string) => ReturnType;
-            wrapImagesInRow: () => ReturnType;
+            listUploadedImages: () => ReturnType;
         };
     }
 }
@@ -35,6 +35,12 @@ export const ImageCustom = Node.create({
 
     group() {
         return this.options.inline ? 'inline' : 'block';
+    },
+
+    addStorage() {
+        return {
+            uploadedImages: [] as string[], // Store image URLs or base64 strings
+        };
     },
 
     draggable: true,
@@ -95,7 +101,12 @@ export const ImageCustom = Node.create({
         return {
             setImageCustom:
                 (options) =>
-                    ({ commands }) => {
+                    ({ commands, editor }) => {
+                        // Store the image in storage when adding it to the editor
+                        if (options.src) {
+                            editor.storage.storageCustom.uploadedImages.push(options.src); // Store image URL or base64 in storage
+                        }
+
                         return commands.insertContent({
                             type: this.name,
                             attrs: options,
@@ -128,43 +139,20 @@ export const ImageCustom = Node.create({
                         return false;
                     },
 
-            // Inside ImageCustom
-
-            wrapImagesInRow: () => ({ commands, editor }) => {
-                console.log('Wrap images in row', editor.storage.selectedImages);
-                const selectedImages = Array.from(editor.storage.selectedImages || []);
-                console.log('Selected images in wrapImagesInRow:', selectedImages);
-
-                if (selectedImages.length >= 2) {
-                    // Wrap selected images in an `imageRow` node
-                    const images = selectedImages.map((pos) => {
-                        const node = editor.state.doc.nodeAt(pos as number);
-                        return {
-                            type: 'imageCustom',
-                            attrs: node?.attrs,
-                        };
-                    });
-
-                    editor.storage.selectedImages.clear();
-                    return commands.insertContent({
-                        type: 'imageRow',
-                        content: images,
-                    });
-                }
-                return false;
+            listUploadedImages: () => () => {
+                return this.storage.uploadedImages;
             },
-
 
         };
     },
 
     addNodeView() {
-        return ({ node, editor, getPos }) => {
+        return ({ node, editor }) => {
             const dom = document.createElement('div');
             dom.style.display = 'flex';
             dom.style.position = 'relative';
 
-            // Áp dụng `alignment` lên `img`
+            // apply `alignment` to `img`
             if (node.attrs.alignment === 'center') {
                 dom.style.justifyContent = 'center';
             } else if (node.attrs.alignment === 'right') {
@@ -180,7 +168,7 @@ export const ImageCustom = Node.create({
             img.title = node.attrs.title || '';
             img.style.width = node.attrs.width || 'auto';
             img.style.height = node.attrs.height || 'auto';
-            img.classList.add('resizable-image');
+            img.classList.add('resizable-image', 'image-upload-content');
 
             const handle = document.createElement('div');
             handle.style.position = 'absolute';
@@ -264,53 +252,6 @@ export const ImageCustom = Node.create({
 
             handle.addEventListener('mousedown', onMouseDown);
 
-            // Add style for selected state
-            const updateSelectedStyle = (isSelected: boolean) => {
-                img.style.border = isSelected ? '2px solid blue' : 'none';
-            };
-
-            // Initialize the set of selected images in editor storage if it doesn't exist
-            if (!editor.storage.selectedImages) {
-                editor.storage.selectedImages = new Set();
-            }
-
-            // Handle `Ctrl + Click` to select/deselect images
-            img.addEventListener('click', (event) => {
-                event.preventDefault();
-                const pos = getPos();
-
-                if (event.ctrlKey) {
-                    // Toggle selection on Ctrl+Click
-                    if (editor.storage.selectedImages.has(pos)) {
-                        editor.storage.selectedImages.delete(pos); // Deselect
-                        img.style.border = 'none';
-                    } else {
-                        editor.storage.selectedImages.add(pos); // Select
-                        img.style.border = '2px solid blue';
-                    }
-                } else {
-                    // Single-click without Ctrl clears other selections
-                    editor.storage.selectedImages.clear();
-                    editor.storage.selectedImages.add(pos);
-
-                    editor.view.dom.querySelectorAll('.resizable-image').forEach((el) => {
-                        const htmlElement = el as HTMLElement;
-                        htmlElement.style.border = 'none';
-                    });
-                    img.style.border = '2px solid blue';
-                }
-
-                console.log('Updated selected images:', Array.from(editor.storage.selectedImages));
-            });
-
-            document.addEventListener('click', (event) => {
-                const target = event.target as HTMLElement;
-                if (!dom.contains(target)) {
-                    editor.storage.selectedImages.clear();
-                    img.style.border = 'none';
-                }
-            });
-
 
             return {
                 dom,
@@ -330,8 +271,6 @@ export const ImageCustom = Node.create({
                     }
 
                     updateHandlePosition(updatedNode.attrs.alignment);  // Ensure handle aligns after update
-                    // Apply selected style based on stored selection
-                    updateSelectedStyle(editor.storage.selectedImages.has(getPos()));
 
                     return true;
                 },

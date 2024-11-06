@@ -67,6 +67,7 @@ export function ComboboxTag(props: Props) {
         <Command>
           <CommandInput placeholder="Search framework..." />
           <CommandList>
+            <CommandEmpty className='pt-0'><Button className='w-full'>Create new tag</Button></CommandEmpty>
             <CommandEmpty>No tags found.</CommandEmpty>
             <CommandGroup>
               {tagData?.data.map((tag) => (
