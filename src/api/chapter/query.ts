@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createChapterList, getChaptersByCourse } from "./api";
+import { createChapterList, getChaptersByCourse, updateChapter } from "./api";
 import { useToast } from "@/hooks/use-toast";
 
 export const useGetChaptersQuery = ({
@@ -47,6 +47,33 @@ export const useCreateChapterListMutation = ({
                 title: error.message ?? "Something error occured",
                 description: "Please try again later",
                 variant: "destructive",
+            });
+        },
+    });
+};
+
+export const useUpdateChapterMutation = ({
+    courseId,
+}: {
+    courseId: string;
+}) => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["update"],
+        mutationFn: updateChapter,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["chapters", courseId],
+            });
+            toast({
+                title: data.message ?? "Updated successfully",
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Some error occured",
             });
         },
     });

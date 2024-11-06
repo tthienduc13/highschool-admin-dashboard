@@ -4,6 +4,8 @@ const REFRESH_TOKEN = "_refresh_token";
 const IS_AUTH = "_is_auth";
 const IS_NEW_USER = "_is_new_user";
 
+export const CHUNK_SIZE = 10 * 1024 * 1024;
+
 const constants = {
     USER_INFO,
     ACCESS_TOKEN,

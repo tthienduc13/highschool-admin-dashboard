@@ -5,17 +5,10 @@ import {
     useGetChaptersQuery,
 } from "@/api/chapter/query";
 import { Chapter, NewChapterData } from "@/api/chapter/type";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-    IconEditCircle,
-    IconLoader2,
-    IconPlus,
-    IconTrash,
-} from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
+import { IconLoader2, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { ChapterItem } from "./chapter-item";
-import { useOutsideClick } from "@/hooks/use-outside-click";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -27,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface CourseContentProps {
     courseId: string;
@@ -36,11 +30,14 @@ export const CourseContent = ({ courseId }: CourseContentProps) => {
     const { toast } = useToast();
 
     const [chapterList, setChapterList] = useState<Chapter[]>([]);
-    const [edit, setEdit] = useState<boolean>(false);
     const [newChapters, setNewChapters] = useState<NewChapterData[]>([]);
     const [addOption, setAddOption] = useState<"one" | "multiple">("one");
 
-    const { data, isSuccess: getSuccess } = useGetChaptersQuery({
+    const {
+        data,
+        isLoading,
+        isSuccess: getSuccess,
+    } = useGetChaptersQuery({
         courseId: courseId,
         pageNumber: 1,
         pageSize: 100,
@@ -57,10 +54,6 @@ export const CourseContent = ({ courseId }: CourseContentProps) => {
             setChapterList(data.data);
         }
     }, [getSuccess, data]);
-
-    const editRef = useOutsideClick(() => {
-        setEdit(false);
-    });
 
     const handleAddChapter = () => {
         const newChapterNumber = chapterList.length + newChapters.length + 1;
@@ -119,23 +112,29 @@ export const CourseContent = ({ courseId }: CourseContentProps) => {
 
     const isAddButtonDisabled = addOption === "one" && newChapters.length > 0;
 
+    if (isLoading) {
+        return (
+            <div className="border rounded-xl bg-background">
+                <div className="p-5 border-b flex items-center justify-between">
+                    <h1 className="text-xl font-bold">Chapters in course</h1>
+                </div>
+                <div className="p-5 flex flex-col gap-5">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                        <Skeleton key={index} className="h-14 w-full" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="border rounded-xl bg-background">
             <div className="p-5 border-b flex items-center justify-between">
                 <h1 className="text-xl font-bold">Chapters in course</h1>
-                <div
-                    ref={editRef}
-                    className={cn(buttonVariants({ variant: "outline" }))}
-                    onClick={() => setEdit(!edit)}
-                >
-                    <IconEditCircle className="mr-2" />
-                    Edit
-                </div>
             </div>
             <div className="p-5 flex flex-col gap-5">
                 {chapterList.map((chapter, index) => (
                     <ChapterItem
-                        isEdit={edit}
                         key={chapter.id}
                         chapter={chapter}
                         index={index}
@@ -153,30 +152,28 @@ export const CourseContent = ({ courseId }: CourseContentProps) => {
                 ))}
                 <div className="w-full flex items-center justify-between mt-5">
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-2">
-                            <Select
-                                disabled={isAddButtonDisabled}
-                                value={addOption}
-                                onValueChange={(value: "one" | "multiple") => {
-                                    setAddOption(value);
-                                    if (value === "one") {
-                                        setNewChapters(newChapters.slice(0, 1));
-                                    }
-                                }}
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select option" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="one">
-                                        Add one chapter
-                                    </SelectItem>
-                                    <SelectItem value="multiple">
-                                        Add multiple chapters
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <Select
+                            disabled={isAddButtonDisabled}
+                            value={addOption}
+                            onValueChange={(value: "one" | "multiple") => {
+                                setAddOption(value);
+                                if (value === "one") {
+                                    setNewChapters(newChapters.slice(0, 1));
+                                }
+                            }}
+                        >
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select option" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="one">
+                                    Add one chapter
+                                </SelectItem>
+                                <SelectItem value="multiple">
+                                    Add multiple chapters
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
                         {!isAddButtonDisabled && (
                             <Button
                                 className="w-fit"

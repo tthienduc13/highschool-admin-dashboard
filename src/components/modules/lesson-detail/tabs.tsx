@@ -34,15 +34,15 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
     const tabs: TabItemProps[] = [
         {
             ref: detailTabRef,
-            label: "Course Detail",
+            label: "Lesson Detail",
             icon: <IconFileDescription size={16} />,
             value: "detail",
         },
         {
             ref: contentRef,
-            label: "Create Content",
+            label: "Create Theory",
             icon: <IconAlignCenter size={16} />,
-            value: "content",
+            value: "theory",
         },
         {
             ref: flashcardRef,
@@ -63,7 +63,7 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
             const tabRef =
                 tab === "detail"
                     ? detailTabRef.current
-                    : tab === "content"
+                    : tab === "theory"
                     ? contentRef.current
                     : tab === "flashcard"
                     ? flashcardRef.current

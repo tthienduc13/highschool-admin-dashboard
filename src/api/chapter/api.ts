@@ -1,5 +1,5 @@
 import axiosServices from "@/lib/axios";
-import { Metadata, Pagination } from "../common/type";
+import { Metadata, ModelResponse, Pagination } from "../common/type";
 import { Chapter, NewChapterData } from "./type";
 import { endpoinChapter } from "@/helpers/endpoint";
 
@@ -57,6 +57,34 @@ export const createChapterList = async ({
         return data;
     } catch (error) {
         console.error("Error while creating chapters for", courseId, error);
+        throw error;
+    }
+};
+
+export const updateChapter = async ({
+    chapterId,
+    chapterName,
+    chapterDescription,
+    chapterLevel,
+}: {
+    chapterId: string;
+    chapterName: string;
+    chapterDescription: string;
+    chapterLevel: number;
+}): Promise<ModelResponse<string>> => {
+    try {
+        const { data } = await axiosServices.patch(
+            endpoinChapter.UPDATE_CHAPTER,
+            {
+                id: chapterId,
+                chapterName: chapterName,
+                description: chapterDescription,
+                chapterLevel: chapterLevel,
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while update chapter", error);
         throw error;
     }
 };
