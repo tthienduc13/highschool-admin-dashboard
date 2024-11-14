@@ -91,7 +91,9 @@ const endPointTag = {
 
 const endPointBlog = {
     CREATE_BLOG: `${prefixMediaServices}${prefixVersion}/new`,
-    GET_ALL_BLOG: `${prefixMediaServices}${prefixVersion}/news`,
+    GET_NEWS: `${prefixMediaServices}${prefixVersion}/news`,
+    GET_NEWS_DETAIL: (slug: string) =>
+        `${prefixMediaServices}${prefixVersion}/new/slug/${slug}`,
 };
 
 const externalEndpoint = {

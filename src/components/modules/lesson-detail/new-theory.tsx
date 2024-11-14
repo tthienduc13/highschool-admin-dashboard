@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { IconLoader2, IconX } from "@tabler/icons-react";
 import { Editor } from "@tiptap/core";
 import { useEffect, useState } from "react";
-import { ContentBlog } from "../create-news/content-blog";
+import { ContentEditor } from "../../core/commons/editor/content-editor";
 import { useToast } from "@/hooks/use-toast";
 import { useCreateTheoryMutation } from "@/api/theory/query";
 
@@ -106,7 +106,7 @@ export const NewTheory = ({ lessonId, onClose }: NewTheoryProps) => {
                     <Label htmlFor="content" className=" font-semibold">
                         Content News
                     </Label>
-                    <ContentBlog
+                    <ContentEditor
                         setEditor={setEditorInstance}
                         contentHtml={contentHtml}
                     />

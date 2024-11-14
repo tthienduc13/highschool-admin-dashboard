@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
-import { ContentBlog } from "./content-blog";
+import { ContentEditor } from "../../core/commons/editor/content-editor";
 import { useCreateBlogMutation } from "@/api/news/news.query";
 import { useToast } from "@/hooks/use-toast";
 import { Editor } from "@tiptap/core";
@@ -135,7 +135,7 @@ function CreateNewsModule() {
             </div>
             <Card className="mt-4">
                 <CardContent className="space-y-8">
-                    <div className="space-y-2">
+                    <div className="space-y-2 mt-4">
                         <Label
                             htmlFor="title"
                             className="text-lg font-semibold"
@@ -249,7 +249,7 @@ function CreateNewsModule() {
                         >
                             Content News
                         </Label>
-                        <ContentBlog
+                        <ContentEditor
                             setEditor={setEditorInstance}
                             contentHtml={contentHtml}
                         />
