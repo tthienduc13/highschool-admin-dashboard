@@ -119,6 +119,8 @@ function CreateNewsModule() {
                 variant: "default",
                 description: result.message,
             });
+
+            window.location.reload();
         } catch {
             toast({
                 title: "Failed",
