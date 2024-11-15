@@ -12,7 +12,7 @@ type Props = {
     contentHtml: string;
 };
 
-export const ContentBlog = (props: Props) => {
+export const ContentEditor = (props: Props) => {
     const [theoryFocused, setTheoryFocused] = useState<boolean>(false);
 
     const contentEditor = useEditor({
@@ -37,6 +37,8 @@ export const ContentBlog = (props: Props) => {
             }
         },
     });
+
+    console.log("contentEditor", contentEditor);
 
     return (
         <div className="w-full">

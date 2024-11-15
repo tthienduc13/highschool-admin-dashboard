@@ -13,6 +13,9 @@ import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import Link from '@tiptap/extension-link';
 import Heading from '@tiptap/extension-heading';
+import Table from '@tiptap/extension-table'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 
 import type { Extension, useEditor } from '@tiptap/react';
 
@@ -22,6 +25,7 @@ import { cx } from 'class-variance-authority';
 import { ImageCustom } from './extension/image-custom';
 import { AlignCustom } from './extension/text-align-custom';
 import { storageCustom } from './extension/storage-custom';
+import { CustomTableCell } from './extension/custom-table-cell';
 
 const grayBorder = 'border-b-[2px]';
 const blueBorder = 'focus:border-b-blue focus:border-b-[2px]';
@@ -96,6 +100,12 @@ export const customEditorConfig = (
       types: ['paragraph', 'heading', 'imageCustom', 'img'],
     }),
     storageCustom,
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    CustomTableCell,
     ...(extensions || [])
   ],
   editorProps: {

@@ -1,6 +1,7 @@
 import webCookieStorage from "./web-cookie-storage";
 import axios, { AxiosError } from "axios";
 import { camelizeKeys } from "humps";
+import { useRouter } from "next/navigation";
 
 const axiosServices = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -33,11 +34,19 @@ axiosServices.interceptors.response.use(
     },
     async (err) => {
         if (err.response) {
+
             console.error(
                 "Response error:",
                 err.response.status,
                 err.response.data
             );
+
+            if (err.response && err.response.status === 401) {
+                if (typeof window !== 'undefined') {
+                    const router = useRouter();
+                    router.push('/login');
+                }
+            }
         } else {
             console.error("Error:", err.message);
         }

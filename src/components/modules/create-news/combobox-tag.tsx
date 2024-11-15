@@ -23,12 +23,14 @@ import { PaginationState } from '@tanstack/react-table';
 import { useTagQuery } from '@/api/tag/tag.query';
 
 type Props = {
+  tag?: string;
   setTag: (tag: string) => void;
+  icon?: React.ReactNode;
 };
 
 export function ComboboxTag(props: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(props.tag ?? '');
 
   //const [search, setSearch] = React.useState(''); // Search state
   //const debouncedSearch = useDebounceValue(search, 300);
@@ -54,8 +56,9 @@ export function ComboboxTag(props: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="justify-between"
         >
+          {props.icon && props.icon}
           {value
             ? tagData?.data.find((tag) => tag.newTagName === value)
               ?.newTagName

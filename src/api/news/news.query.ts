@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { createBlog } from "./news.api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createBlog, getNews, getNewsDetail } from "./news.api";
 
 export const useCreateBlogMutation = () => {
     return useMutation({
@@ -28,3 +28,36 @@ export const useCreateBlogMutation = () => {
         }
     });
 };
+
+export const useNewsQuery = ({
+    search,
+    page,
+    eachPage,
+    location,
+    newsTagId,
+}: {
+    search?: string;
+    page: number;
+    eachPage: number;
+    location?: string | null;
+    newsTagId?: string | null;
+}) => {
+    return useQuery({
+        queryKey: ["news", search, location, newsTagId, page, eachPage],
+        queryFn: () =>
+            getNews({
+                search: search,
+                page: page,
+                eachPage: eachPage,
+                location: location,
+                newsTagId: newsTagId
+            })
+    });
+};
+
+export const useNewsDetailQuery = (slug: string) => {
+    return useQuery({
+        queryKey: ["news-detail", slug],
+        queryFn: () => getNewsDetail(slug)
+    });
+}

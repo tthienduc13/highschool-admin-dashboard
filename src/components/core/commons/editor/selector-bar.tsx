@@ -22,6 +22,7 @@ import { HeadingSelector } from "./heading-seletor";
 import { cn } from "@/lib/utils";
 import EditorUploadImage from "@/components/ui/editor/editor-upload-image";
 import { EditorUploadFile } from "@/components/ui/editor/editor-upload-file";
+import { TableBar } from "./table-bar";
 export interface SelectorBarProps {
     activeEditor: Editor | null;
 }
@@ -168,7 +169,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
                 className={cn(
                     "rounded-full",
                     activeEditor.isActive({ textAlign: "left" }) &&
-                        "bg-gray-100"
+                    "bg-gray-100"
                 )}
             >
                 <IconAlignLeft size={18} />
@@ -182,7 +183,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
                 className={cn(
                     "rounded-full",
                     activeEditor.isActive({ textAlign: "center" }) &&
-                        "bg-gray-100"
+                    "bg-gray-100"
                 )}
             >
                 <IconAlignCenter size={18} />
@@ -196,7 +197,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
                 className={cn(
                     "rounded-full",
                     activeEditor.isActive({ textAlign: "right" }) &&
-                        "bg-gray-100"
+                    "bg-gray-100"
                 )}
             >
                 <IconAlignRight size={18} />
@@ -210,7 +211,7 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
                 className={cn(
                     "rounded-full",
                     activeEditor.isActive({ textAlign: "justify" }) &&
-                        "bg-gray-100"
+                    "bg-gray-100"
                 )}
             >
                 <IconAlignJustified size={18} />
@@ -227,6 +228,8 @@ export const SelectorBar = ({ activeEditor }: SelectorBarProps) => {
             <EditorUploadImage activeEditor={activeEditor} />
 
             <EditorUploadFile activeEditor={activeEditor} />
+
+            <TableBar activeEditor={activeEditor} />
         </div>
     );
 };
