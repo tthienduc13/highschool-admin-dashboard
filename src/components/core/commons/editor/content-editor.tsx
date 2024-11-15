@@ -38,8 +38,6 @@ export const ContentEditor = (props: Props) => {
         },
     });
 
-    console.log("contentEditor", contentEditor);
-
     return (
         <div className="w-full">
             <SelectorBar activeEditor={contentEditor} />

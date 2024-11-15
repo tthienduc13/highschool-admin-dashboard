@@ -20,7 +20,8 @@ import {
 } from '@/components/ui/popover';
 import { useQuery } from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
-import { useTagQuery } from '@/api/tag/tag.query';
+import { useTagCreateMutation, useTagQuery } from '@/api/tag/tag.query';
+import { useToast } from '@/hooks/use-toast';
 
 type Props = {
   tag?: string;
@@ -31,9 +32,10 @@ type Props = {
 export function ComboboxTag(props: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(props.tag ?? '');
-
-  //const [search, setSearch] = React.useState(''); // Search state
-  //const debouncedSearch = useDebounceValue(search, 300);
+  const [newTag, setNewTag] = React.useState<string>('');
+  const { toast } = useToast();
+  const { mutateAsync: createTag, isPending: isLoading } =
+    useTagCreateMutation();
 
   const [{ pageIndex, pageSize }] =
     React.useState<PaginationState>({
@@ -41,13 +43,47 @@ export function ComboboxTag(props: Props) {
       pageSize: 5
     });
 
-  const { data: tagData } = useQuery(
+  const { data: tagData, refetch } = useQuery(
     useTagQuery({
       pageSize: pageSize,
-      pageNumber: pageIndex,
-      //search: debouncedSearch
+      pageNumber: pageIndex
     })
   );
+
+  const handleCreateTag = async () => {
+    if (newTag.length <= 1) {
+      toast({
+        title: "Error",
+        variant: "destructive",
+        description: "New tag name must be at least 2 characters",
+      });
+
+      return;
+    }
+
+    try {
+      await createTag({ newTagName: newTag });
+
+      toast({
+        title: "Creating...",
+        variant: "default",
+        description: "Create new tag successfully",
+      });
+
+      await refetch();
+
+    } catch (error) {
+      console.error('Error creating tag:', error);
+
+      toast({
+        title: "Failed",
+        variant: "destructive",
+        description: "Failed to create new tag",
+      });
+    }
+  }
+
+
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -68,9 +104,17 @@ export function ComboboxTag(props: Props) {
       </PopoverTrigger>
       <PopoverContent className=" p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search framework..." onInput={(e) => setNewTag((e.target as HTMLInputElement).value)} />
           <CommandList>
-            <CommandEmpty className='pt-0'><Button className='w-full'>Create new tag</Button></CommandEmpty>
+            <CommandEmpty className='pt-0'>
+              <Button
+                className='w-full'
+                onClick={handleCreateTag}
+                disabled={isLoading}
+              >
+                Create new tag
+              </Button>
+            </CommandEmpty>
             <CommandEmpty>No tags found.</CommandEmpty>
             <CommandGroup>
               {tagData?.data.map((tag) => (
