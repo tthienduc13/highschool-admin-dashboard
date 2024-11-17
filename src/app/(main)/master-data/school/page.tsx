@@ -1,7 +1,7 @@
-import SchoolModule from "@/components/modules/school-management";
+import MasterSchoolModule from "@/components/modules/master-data/master-school";
 
 function Schools() {
-    return <SchoolModule />;
+    return <MasterSchoolModule />;
 }
 
 export default Schools;

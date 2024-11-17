@@ -1,7 +1,8 @@
 import axiosServices from "@/lib/axios";
-import { ModelResponse } from "../common/type";
+import { ModelResponse, Pagination } from "../common/type";
 import { endpointInformation } from "@/helpers/endpoint";
-import { CreateSchoolData } from "./type";
+import { CreateSchoolData, School } from "./type";
+import fetchPaginatedData from "../common/api";
 
 export const createSchools = async (
     schoolList: CreateSchoolData[]
@@ -18,39 +19,39 @@ export const createSchools = async (
     }
 };
 
-// export const getProvinces = async ({
-//     search,
+export const getSchools = async ({
+    search,
+    pageNumber,
+    pageSize,
+}: {
+    search?: string;
+    pageNumber: number;
+    pageSize: number;
+}): Promise<Pagination<School>> => {
+    return fetchPaginatedData<School>(endpointInformation.GET_SCHOOLS, {
+        search,
+        pageNumber,
+        pageSize,
+    });
+};
 
-//     pageNumber,
-//     pageSize,
-// }: {
-//     search: string;
-//     pageNumber: number;
-//     pageSize: number;
-// }): Promise<Pagination<Province>> => {
-//     try {
-//         const response = await axiosServices.get(
-//             endpointInformation.GET_PROVINCES,
-//             {
-//                 params: {
-//                     search,
-//                     pageNumber,
-//                     pageSize,
-//                 },
-//             }
-//         );
-//         const paginationHeader = response.headers["x-pagination"];
-//         const metadata: Metadata = JSON.parse(paginationHeader || "{}");
-
-//         return {
-//             data: response.data,
-//             currentPage: metadata.CurrentPage,
-//             pageSize: metadata.PageSize,
-//             totalCount: metadata.TotalCount,
-//             totalPages: metadata.TotalPages,
-//         };
-//     } catch (error) {
-//         console.error("Error while getting provinces", error);
-//         throw error;
-//     }
-// };
+export const getProvinceSchools = async ({
+    provinceId,
+    search,
+    pageNumber,
+    pageSize,
+}: {
+    provinceId: string;
+    search?: string;
+    pageNumber: number;
+    pageSize: number;
+}): Promise<Pagination<School>> => {
+    return fetchPaginatedData<School>(
+        endpointInformation.GET_ALL_PROVINCE_SCHOOL(provinceId),
+        {
+            search,
+            pageNumber,
+            pageSize,
+        }
+    );
+};

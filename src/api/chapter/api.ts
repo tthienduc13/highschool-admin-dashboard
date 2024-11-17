@@ -1,7 +1,8 @@
 import axiosServices from "@/lib/axios";
-import { Metadata, ModelResponse, Pagination } from "../common/type";
+import { ModelResponse, Pagination } from "../common/type";
 import { Chapter, NewChapterData } from "./type";
 import { endpoinChapter } from "@/helpers/endpoint";
+import fetchPaginatedData from "../common/api";
 
 export const getChaptersByCourse = async ({
     search,
@@ -14,31 +15,14 @@ export const getChaptersByCourse = async ({
     pageNumber: number;
     pageSize: number;
 }): Promise<Pagination<Chapter>> => {
-    try {
-        const response = await axiosServices.get(
-            endpoinChapter.GET_ALL_CHAPTER_BY_COURSE(courseId),
-            {
-                params: {
-                    search,
-                    pageNumber,
-                    pageSize,
-                },
-            }
-        );
-        const paginationHeader = response.headers["x-pagination"];
-        const metadata: Metadata = JSON.parse(paginationHeader || "{}");
-
-        return {
-            data: response.data,
-            currentPage: metadata.CurrentPage,
-            pageSize: metadata.PageSize,
-            totalCount: metadata.TotalCount,
-            totalPages: metadata.TotalPages,
-        };
-    } catch (error) {
-        console.error("Error while getting chapters for", courseId, error);
-        throw error;
-    }
+    return fetchPaginatedData<Chapter>(
+        endpoinChapter.GET_ALL_CHAPTER_BY_COURSE(courseId),
+        {
+            search,
+            pageNumber,
+            pageSize,
+        }
+    );
 };
 
 export const createChapterList = async ({
@@ -53,7 +37,6 @@ export const createChapterList = async ({
             endpoinChapter.CREATE_CHAPTER_LIST(courseId),
             chapterData
         );
-        console.log(data);
         return data;
     } catch (error) {
         console.error("Error while creating chapters for", courseId, error);

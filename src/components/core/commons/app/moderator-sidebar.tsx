@@ -65,6 +65,7 @@ import {
     IconBriefcase2,
     IconLayoutDashboard,
     IconNews,
+    IconPaperclip,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { UserButton } from "./user-button";
@@ -88,10 +89,33 @@ const data = {
     ],
     navMain: [
         {
+            title: "Master data",
+            url: "/master-data",
+            isActive: true,
+            icon: Settings2,
+            items: [
+                {
+                    title: "Region",
+                    url: "/master-data/region",
+                },
+                {
+                    title: "Schools",
+                    url: "/master-data/school",
+                },
+                {
+                    title: "Course",
+                    url: "/master-data/courses",
+                },
+                {
+                    title: "Limits",
+                    url: "#",
+                },
+            ],
+        },
+        {
             title: "Subject Managments",
             url: "#",
             icon: IconBook,
-            isActive: true,
             items: [
                 {
                     title: "Published Course",
@@ -99,7 +123,26 @@ const data = {
                 },
                 {
                     title: "Unpublished Course",
+                    url: "/course-management/unpublished-courses",
+                },
+                {
+                    title: "Settings",
                     url: "#",
+                },
+            ],
+        },
+        {
+            title: "Document Managments",
+            url: "#",
+            icon: IconPaperclip,
+            items: [
+                {
+                    title: "All documents",
+                    url: "/document-management/documents",
+                },
+                {
+                    title: "Create",
+                    url: "/document-management/create",
                 },
                 {
                     title: "Settings",
@@ -126,7 +169,6 @@ const data = {
                 },
             ],
         },
-
         {
             title: "Career Mentor",
             url: "#",
@@ -146,29 +188,6 @@ const data = {
                 },
                 {
                     title: "Changelog",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Master data",
-            url: "/master-data",
-            icon: Settings2,
-            items: [
-                {
-                    title: "Region",
-                    url: "/master-data/region",
-                },
-                {
-                    title: "Schools",
-                    url: "/master-data/school",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
                     url: "#",
                 },
             ],
@@ -275,22 +294,6 @@ export default function ModeratorSidebar({ children }: ModeratorSidebarProps) {
                                     <Link href={"/"}>
                                         <IconLayoutDashboard />{" "}
                                         <span>Dashboard</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroup>
-                    <SidebarGroup className="group/collapsible">
-                        <SidebarGroupLabel>Master Data</SidebarGroupLabel>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    tooltip={"Dashboard"}
-                                >
-                                    <Link href={"/master-data/region"}>
-                                        <IconLayoutDashboard />{" "}
-                                        <span>Region</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

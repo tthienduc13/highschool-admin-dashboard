@@ -6,6 +6,10 @@ const prefixMediaServices = "/media-service";
 const prefixAnalyseServices = "/analyse-service";
 const prefixDicussionServices = "/discussion-service";
 
+const endpointCurriculum = {
+    GET: `${prefixDocumentServices}${prefixVersion}/curriculum`,
+};
+
 const endpointAuth = {
     SIGN_IN: `${prefixUserServices}${prefixVersion}/authentication/login`,
 };
@@ -19,21 +23,37 @@ const endpointUser = {
     CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`,
 };
 
+const endpointSubjectCurriculum = {
+    CREATE: `${prefixDocumentServices}${prefixVersion}/subject-curriculum`,
+    GET_PUBLISH: `${prefixDocumentServices}${prefixVersion}/subject-curriculum/publish`,
+    GET_UNPUBLISH: `${prefixDocumentServices}${prefixVersion}/subject-curriculum/unpublish`,
+    PUBLISH_COURSE: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/subject-curriculum/${courseId}/publish`,
+    UNPUBLISH_COURSE: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/subject-curriculum/${courseId}/unpublish`,
+};
+
 const endpointSubject = {
     GET_ALL_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects`,
+    GET_UNPUBLISH_COURSES: `${prefixDocumentServices}${prefixVersion}/subjects/unpublish`,
+    GET_UNBPUBLISH_BY_ID: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/subject/unpublish/${courseId}`,
     DELETE_COURSE: (courseId: string) =>
         `${prefixDicussionServices}${prefixVersion}/subject/${courseId}`,
     GET_BY_ID: (id: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
+    PATH: `${prefixDocumentServices}${prefixVersion}/subject`,
     CREATE_SUBJECT: `${prefixDocumentServices}${prefixVersion}/subject`,
     GET_BY_SLUG: `${prefixDocumentServices}${prefixVersion}/subject/slug`,
+    UNPUBLISH_COURSE: (courseId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/subject/${courseId}/unpublish`,
 };
 
 const endpoinChapter = {
     GET_ALL_CHAPTER_BY_COURSE: (courseId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapter/subject/${courseId}`,
+        `${prefixDocumentServices}${prefixVersion}/chapter/subject-curriculum/${courseId}`,
     CREATE_CHAPTER_LIST: (courseId: string) =>
-        `${prefixDocumentServices}${prefixVersion}/chapters/subject/${courseId}`,
+        `${prefixDocumentServices}${prefixVersion}/chapters/subject-curriculum/${courseId}`,
     UPDATE_CHAPTER: `${prefixDocumentServices}${prefixVersion}/chapter`,
 };
 
@@ -52,6 +72,8 @@ const endpointInformation = {
     GET_PROVINCES: `${prefixDocumentServices}${prefixVersion}/information/provinces`,
     CREATE_SCHOOLS: `${prefixDocumentServices}${prefixVersion}/information/province/schools`,
     GET_SCHOOLS: `${prefixDocumentServices}${prefixVersion}/information/schools`,
+    GET_ALL_PROVINCE_SCHOOL: (provinceId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/information/provice/${provinceId}/schools`,
 };
 
 const endpointRoadmap = {
@@ -61,6 +83,12 @@ const endpointRoadmap = {
 
 const endpointDocument = {
     GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents`,
+    CREATE: `${prefixDocumentServices}${prefixVersion}/document`,
+};
+
+const endpointDocumentMedia = {
+    CREATE: (id: string) =>
+        `${prefixMediaServices}${prefixVersion}/document/${id}`,
 };
 
 const endpointCategory = {
@@ -120,4 +148,7 @@ export {
     endpointSearch,
     endpointCategory,
     endpointInformation,
+    endpointCurriculum,
+    endpointSubjectCurriculum,
+    endpointDocumentMedia,
 };

@@ -2,6 +2,7 @@ export type School = {
     id: string;
     schoolName: string;
     provinceId: string;
+    provinceName: string;
     numberDocuments: string;
 };
 

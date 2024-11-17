@@ -40,7 +40,7 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
         },
         {
             ref: contentRef,
-            label: "Create Content",
+            label: " Content",
             icon: <IconAlignCenter size={16} />,
             value: "content",
         },

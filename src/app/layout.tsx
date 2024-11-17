@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import AppProviders from "@/components/core/commons/providers/app-provider";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
             >
                 <NextTopLoader showSpinner={false} />
                 <AppProviders>{children}</AppProviders>
+                <Toaster />
             </body>
         </html>
     );

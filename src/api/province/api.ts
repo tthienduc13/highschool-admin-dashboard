@@ -20,11 +20,10 @@ export const createProvinces = async (
 
 export const getProvinces = async ({
     search,
-
     pageNumber,
     pageSize,
 }: {
-    search: string;
+    search?: string;
     pageNumber: number;
     pageSize: number;
 }): Promise<Pagination<Province>> => {

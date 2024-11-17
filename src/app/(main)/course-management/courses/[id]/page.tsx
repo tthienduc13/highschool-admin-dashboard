@@ -4,7 +4,7 @@ type Params = Promise<{ id: string }>;
 
 async function CourseDetailProps({ params }: { params: Params }) {
     const { id } = await params;
-    return <CourseDetailModule courseId={id} />;
+    return <CourseDetailModule courseCurriculumId={id} />;
 }
 
 export default CourseDetailProps;

@@ -5,14 +5,24 @@ export type Course = {
     information: string;
     subjectDescription: string;
     subjectCode: string;
-    numberOfChapters: number;
     createdAt: Date;
     categoryName: Class;
     updatedAt: Date;
     slug: string;
-    like: null;
+    like: number;
     view: number;
-    numberEnrollment: number;
+    numberEnrollment: null;
+};
+
+export type EditCoursePayload = {
+    id: string;
+    image: string;
+    subjectName: string;
+    imageRaw: File | null;
+    categoryId: string;
+    subjectCode: string;
+    subjectDescription: string;
+    information: string;
 };
 
 export enum Class {

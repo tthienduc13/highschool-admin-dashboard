@@ -5,8 +5,12 @@ import {
     deleteCourse,
     getAllCourses,
     getCourseById,
+    getUnpublisedCourse,
+    getUnpublishedCourseById,
+    updateSubject,
 } from "./api";
 import { useToast } from "@/hooks/use-toast";
+import useMasterCourseStore from "@/stores/use-master-course-store";
 
 export const useCoursesQuery = ({
     search,
@@ -15,7 +19,7 @@ export const useCoursesQuery = ({
     pageSize,
 }: {
     search?: string;
-    grade?: Class;
+    grade?: Class | null;
     pageNumber: number;
     pageSize: number;
 }) => {
@@ -31,8 +35,32 @@ export const useCoursesQuery = ({
     });
 };
 
+export const useUnpublishedCourseQuery = ({
+    search,
+    grade,
+    pageNumber,
+    pageSize,
+}: {
+    search?: string;
+    grade?: Class;
+    pageNumber: number;
+    pageSize: number;
+}) => {
+    return useQuery({
+        queryKey: ["unpulished-courses", search, grade, pageNumber, pageSize],
+        queryFn: () =>
+            getUnpublisedCourse({
+                search: search,
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                grade: grade,
+            }),
+    });
+};
+
 export const useCreateCourseMutation = () => {
     const queryClient = useQueryClient();
+    const closeCreate = useMasterCourseStore((s) => s.closeCreate);
     const { toast } = useToast();
     return useMutation({
         mutationKey: ["create", "course"],
@@ -45,6 +73,35 @@ export const useCreateCourseMutation = () => {
             toast({
                 title: data.message,
             });
+            closeCreate();
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Something error occured",
+                description: "Please try again later",
+                variant: "destructive",
+            });
+        },
+    });
+};
+
+export const useUpdateCourseMutation = () => {
+    const queryClient = useQueryClient();
+    const closeEdit = useMasterCourseStore((s) => s.closeEdit);
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["update", "course"],
+        mutationFn: updateSubject,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["courses"],
+            });
+            console.log(data);
+            toast({
+                title: data.message,
+            });
+            closeEdit();
             return data;
         },
         onError: (error) => {
@@ -82,9 +139,17 @@ export const useDeleteCourseMutation = () => {
     });
 };
 
-export const useGetCourseByIdQuery = (courseId: string) => {
+export const useCourseIdQuery = (courseId: string) => {
     return useQuery({
         queryKey: ["course-detail", courseId],
         queryFn: () => getCourseById(courseId),
+        enabled: !!courseId,
+    });
+};
+
+export const useGetUnpublishedCourseByIdQuery = (courseId: string) => {
+    return useQuery({
+        queryKey: ["unpublished-course-detail", courseId],
+        queryFn: () => getUnpublishedCourseById(courseId),
     });
 };

@@ -1,6 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createSchools } from "./api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createSchools, getProvinceSchools, getSchools } from "./api";
 
 export const useCreateSchoolMutation = () => {
     const { toast } = useToast();
@@ -20,5 +20,49 @@ export const useCreateSchoolMutation = () => {
                 variant: "destructive",
             });
         },
+    });
+};
+
+export const useSchoolsQuery = ({
+    search,
+    pageSize,
+    pageNumber,
+}: {
+    search?: string;
+    pageSize: number;
+    pageNumber: number;
+}) => {
+    return useQuery({
+        queryKey: ["schools", search, pageSize, pageNumber],
+        queryFn: () =>
+            getSchools({
+                search: search,
+                pageSize: pageSize,
+                pageNumber: pageNumber,
+            }),
+    });
+};
+
+export const useProvinceSchoolQuery = ({
+    provinceId,
+    search,
+    pageSize,
+    pageNumber,
+}: {
+    search?: string;
+    provinceId: string;
+    pageSize: number;
+    pageNumber: number;
+}) => {
+    return useQuery({
+        queryKey: ["schools", provinceId, search, pageSize, pageNumber],
+        queryFn: () =>
+            getProvinceSchools({
+                search: search,
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                provinceId: provinceId,
+            }),
+        enabled: !!provinceId,
     });
 };

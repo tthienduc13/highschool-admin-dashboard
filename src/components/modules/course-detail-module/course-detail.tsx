@@ -26,7 +26,6 @@ export const CourseDetail = ({
     }
     const courseInfo = [
         { label: "Category", value: courseDetail.categoryName },
-        { label: "Chapters", value: courseDetail.numberOfChapters ?? 0 },
         { label: "Users", value: courseDetail.numberEnrollment ?? 0 },
         { label: "Like", value: courseDetail.like ?? 0 },
         { label: "View", value: courseDetail.view ?? 0 },

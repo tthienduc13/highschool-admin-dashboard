@@ -57,12 +57,10 @@ function CreateNewsModule() {
 
     const handleFetchContent = async () => {
         if (editorInstance) {
-            const textContent =
-                editorInstance.storage.storageCustom.contentText;
-            let htmlContent = editorInstance.storage.storageCustom.contentHtml;
+            const textContent = editorInstance.getText();
+            let htmlContent = editorInstance.getHTML();
             const uploadedImages =
                 editorInstance.storage.storageCustom.uploadedImages;
-
             const replacementPromises = uploadedImages.map(
                 async (image: string) => {
                     const urlImage = await handleUploadImage(

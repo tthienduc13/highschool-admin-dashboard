@@ -4,7 +4,7 @@ export const CourseSchema = z.object({
         .string()
         .min(10, "Subject name needs a minimum length of 10"),
     imageRaw: z
-        .union([z.instanceof(File), z.undefined()]) // Allow `File` or `undefined`
+        .union([z.instanceof(File), z.undefined()])
         .refine((file) => file === undefined || file instanceof File, {
             message: "Image is required and should be a valid file.",
         }),

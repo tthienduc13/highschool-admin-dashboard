@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createChapterList, getChaptersByCourse, updateChapter } from "./api";
 import { useToast } from "@/hooks/use-toast";
 
-export const useGetChaptersQuery = ({
+export const useChaptersByCourseQuery = ({
     search,
     courseId,
     pageNumber,

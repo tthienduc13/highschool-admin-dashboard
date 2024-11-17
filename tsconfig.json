@@ -29,7 +29,7 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "src/components/core/commons/excel-import/steps/upload-step",
-        "src/components/modules/region-management"
+        "src/components/modules/master-data/master-region"
     ],
     "exclude": ["node_modules"]
 }

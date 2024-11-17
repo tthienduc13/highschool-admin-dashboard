@@ -23,12 +23,12 @@ export const useCreateProvincesMutation = () => {
     });
 };
 
-export const useGetProvincesQuery = ({
+export const useProvincesQuery = ({
     search,
     pageSize,
     pageNumber,
 }: {
-    search: string;
+    search?: string;
     pageSize: number;
     pageNumber: number;
 }) => {

@@ -1,15 +1,16 @@
 "use client";
 
-import { useGetCourseByIdQuery } from "@/api/course/query";
+import { useCourseIdQuery } from "@/api/course/query";
 import { Button } from "@/components/ui/button";
-import { IconArrowLeft } from "@tabler/icons-react";
-import { usePathname, useRouter } from "next/navigation";
+import { IconArrowLeft, IconLoader2 } from "@tabler/icons-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Tabs } from "./tabs";
 import PageContainer from "@/components/core/layouts/page-container";
 import dynamic from "next/dynamic";
 import { CourseDetail } from "./course-detail";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUnpublishMutation } from "@/api/course-curriculum/query";
 
 const CourseContent = dynamic(
     () => import("./course-content").then((mod) => mod.CourseContent),
@@ -17,18 +18,22 @@ const CourseContent = dynamic(
 );
 
 interface CourseDetailModuleProps {
-    courseId: string;
+    courseCurriculumId: string;
 }
 
 export type Tab = "detail" | "flashcard" | "quiz" | "content";
 
-function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
-    const { data: courseData, isLoading } = useGetCourseByIdQuery(courseId);
+function CourseDetailModule({ courseCurriculumId }: CourseDetailModuleProps) {
+    const searchParams = useSearchParams();
+    const { data: courseData, isLoading } = useCourseIdQuery(
+        searchParams.get("courseId" as string)!
+    );
+    const { mutate: unpublish, isPending } = useUnpublishMutation();
     const router = useRouter();
     const pathName = usePathname();
 
     const handleBack = () => {
-        const coursePath = pathName.split(`/${courseId}`)[0];
+        const coursePath = pathName.split(`/${courseCurriculumId}`)[0];
         router.push(coursePath!);
     };
 
@@ -59,7 +64,7 @@ function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
                             />
                         )}
                         {tab === "content" && (
-                            <CourseContent courseId={courseId} />
+                            <CourseContent courseId={courseCurriculumId} />
                         )}
                     </div>
                 </div>
@@ -81,14 +86,21 @@ function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
                         </Button>
                         <div className="flex flex-row items-center gap-2">
                             <h2 className="text-2xl font-bold">
-                                {courseData?.subjectName}
+                                {searchParams.get("courseName" as string)}
                             </h2>
-                            <div className="text-xs font-semibold bg-primary text-background px-2 py-1 rounded-full">
-                                Draft
-                            </div>
                         </div>
                     </div>
-                    <Button className="font-semibold">Publish course</Button>
+                    <Button
+                        onClick={() => unpublish(courseCurriculumId)}
+                        variant={"destructive"}
+                        className="font-semibold"
+                    >
+                        {isPending ? (
+                            <IconLoader2 className="animate-spin" />
+                        ) : (
+                            "   Unpublish course"
+                        )}
+                    </Button>
                 </div>
                 <Tabs isLoading={isLoading} onTabChange={setTab} tab={tab} />
                 <div className="w-full">
@@ -98,7 +110,9 @@ function CourseDetailModule({ courseId }: CourseDetailModuleProps) {
                             courseDetail={courseData}
                         />
                     )}
-                    {tab === "content" && <CourseContent courseId={courseId} />}
+                    {tab === "content" && (
+                        <CourseContent courseId={courseCurriculumId} />
+                    )}
                 </div>
             </div>
         </PageContainer>

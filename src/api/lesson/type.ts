@@ -26,7 +26,7 @@ export type LessonDetail = {
     videoUrl: null;
     chapterId: string;
     theoryCount: number;
-    createdCount: Date;
+    createdAt: Date;
     theories: TheoryPreview[];
     displayOrder: number;
     quizCount: number;

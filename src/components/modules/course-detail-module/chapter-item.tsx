@@ -135,12 +135,7 @@ export const ChapterItem = ({ chapter, index }: ChapterItemProps) => {
                     </Button>
                 </div>
             </div>
-            {openLessonList && (
-                <LessonItem
-                    chapterId={chapter.id}
-                    chapterDescription={chapter.description}
-                />
-            )}
+            {openLessonList && <LessonItem chapterId={chapter.id} />}
             {editingChapterId === chapter.id && (
                 <div className="w-full px-4 py-3 border border-t-0 rounded-b-lg flex flex-col gap-4">
                     <div className="flex flex-col w-full space-y-2">

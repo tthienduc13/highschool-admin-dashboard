@@ -1,6 +1,8 @@
 "use client";
-import { useGetProvincesQuery } from "@/api/province/query";
-import { useCreateSchoolMutation } from "@/api/schools/query";
+import {
+    useCreateProvincesMutation,
+    useProvincesQuery,
+} from "@/api/province/query";
 import { CsvImporter } from "@/components/core/commons/csv-importer";
 import { DataTable } from "@/components/core/commons/table";
 import { ControlBar } from "@/components/core/commons/table/control-bar";
@@ -12,9 +14,7 @@ import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 
-const BATCH_SIZE = 200;
-
-function RegionModule() {
+function MasterProvinceModule() {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const debounceSearch = useDebounceValue(searchQuery, 300);
 
@@ -23,20 +23,20 @@ function RegionModule() {
         pageSize: 10,
     });
 
-    const { data, isLoading } = useGetProvincesQuery({
+    const { data, isLoading } = useProvincesQuery({
         pageNumber: pageIndex,
         pageSize: pageSize,
         search: debounceSearch,
     });
 
-    const { mutate: createSchool, isPending } = useCreateSchoolMutation();
+    const { mutate: createProvince, isPending } = useCreateProvincesMutation();
 
     return (
         <>
-            <div className="w-full flex flex-col h-[calc(100vh-64px-32px)] rounded-lg bg-background p-4 gap-4 ">
+            <div className="w-full flex flex-col h-[calc(100vh-64px-16px)] rounded-lg bg-background p-4 gap-4 ">
                 <div className="flex flex-row items-center justify-between">
                     <div className="text-3xl font-bold text-primary">
-                        Schools ({data?.totalCount ?? 0})
+                        Provinces ({data?.totalCount ?? 0})
                     </div>
                     <div className="flex flex-row gap-2">
                         <div className="flex flex-row items-center px-2 border rounded-md">
@@ -50,53 +50,21 @@ function RegionModule() {
                         <CsvImporter
                             disabled={isPending}
                             fields={[
-                                { label: "SchoolName", value: "name" },
                                 {
-                                    label: "Region Id",
-                                    value: "regionId",
+                                    label: "Id",
+                                    value: "id",
+                                    required: true,
                                 },
-                                {
-                                    label: "Location Detail",
-                                    value: "locationDetail",
-                                },
+                                { label: "Province", value: "name" },
                             ]}
                             onImport={async (parsedData) => {
                                 const formattedData = parsedData.map(
                                     (item) => ({
-                                        provinceId: Number(item.regionId),
-                                        schoolName: String(item.name ?? ""),
-                                        locationDetail: String(
-                                            item.locationDetail
-                                        ),
+                                        provinceId: Number(item.id),
+                                        provinceName: String(item.name ?? ""),
                                     })
                                 );
-
-                                const batches = [];
-                                for (
-                                    let i = 0;
-                                    i < formattedData.length;
-                                    i += BATCH_SIZE
-                                ) {
-                                    batches.push(
-                                        formattedData.slice(i, i + BATCH_SIZE)
-                                    );
-                                }
-
-                                // Process each batch
-                                for (const batch of batches) {
-                                    try {
-                                        await createSchool(batch);
-                                        console.log(
-                                            `Successfully created batch of ${batch.length} schools`
-                                        );
-                                    } catch (error) {
-                                        console.error(
-                                            "Error creating batch of schools",
-                                            error
-                                        );
-                                        // Handle error (e.g., log it, retry, etc.)
-                                    }
-                                }
+                                createProvince(formattedData);
                             }}
                         />
                         <Button>
@@ -127,4 +95,4 @@ function RegionModule() {
     );
 }
 
-export default RegionModule;
+export default MasterProvinceModule;

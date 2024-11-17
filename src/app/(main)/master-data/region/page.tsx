@@ -1,7 +1,7 @@
-import RegionModule from "@/components/modules/region-management";
+import MasterProvinceModule from "@/components/modules/master-data/master-region";
 
 function Region() {
-    return <RegionModule />;
+    return <MasterProvinceModule />;
 }
 
 export default Region;

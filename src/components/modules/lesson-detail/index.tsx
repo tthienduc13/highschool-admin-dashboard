@@ -5,7 +5,7 @@ import PageContainer from "@/components/core/layouts/page-container";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Tabs } from "./tabs";
 import { useState } from "react";
 import { LessonDetail } from "./lesson-detail";
@@ -24,13 +24,11 @@ const LessonTheory = dynamic(
 
 function LessonDetailModule({ lessonId }: LessonDetailModuleProps) {
     const router = useRouter();
-    const pathName = usePathname();
 
     const [tab, setTab] = useState<Tab>("detail");
 
     const handleBack = () => {
-        const coursePath = pathName.split(`/${lessonId}`)[0];
-        router.push(coursePath!);
+        router.back();
     };
 
     const { data: lessonData, isLoading } = useLessonQuery({

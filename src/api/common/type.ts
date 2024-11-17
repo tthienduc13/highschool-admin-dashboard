@@ -22,3 +22,8 @@ export type ModelResponse<T> = {
 export type BasicResponse<T> = {
     data: T;
 };
+
+export type PaginationPayload = {
+    pageSize: number;
+    pageNumber: number;
+};

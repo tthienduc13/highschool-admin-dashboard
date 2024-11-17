@@ -1,7 +1,7 @@
 import axiosServices, { axiosClientUpload } from "@/lib/axios";
 import { Metadata, ModelResponse, Pagination } from "../common/type";
 import { endpointSubject } from "@/helpers/endpoint";
-import { Course } from "./type";
+import { Course, EditCoursePayload } from "./type";
 import { z } from "zod";
 import { CourseSchema } from "@/schemas/course";
 
@@ -12,7 +12,7 @@ export const getAllCourses = async ({
     pageSize,
 }: Partial<{
     search: string;
-    grade: string;
+    grade: string | null;
     pageNumber: number;
     pageSize: number;
 }>): Promise<Pagination<Course>> => {
@@ -22,7 +22,7 @@ export const getAllCourses = async ({
             {
                 params: {
                     search,
-                    grade,
+                    Class: grade,
                     pageNumber,
                     pageSize,
                 },
@@ -67,6 +67,82 @@ export const createSubject = async (
     }
 };
 
+export const updateSubject = async (
+    values: EditCoursePayload
+): Promise<ModelResponse<string>> => {
+    try {
+        const { data } = await axiosClientUpload.patch(
+            `${endpointSubject.CREATE_SUBJECT}`,
+            {
+                id: values.id,
+                subjectName: values.subjectName,
+                image: values.image,
+                imageRaw: values.imageRaw ?? undefined,
+                subjectDescription: values.subjectDescription,
+                information: values.information,
+                categoryId: values.categoryId,
+                subjectCode: values.subjectCode,
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while updating course", error);
+        throw error;
+    }
+};
+
+export const getCourseById = async (courseId: string): Promise<Course> => {
+    try {
+        const { data } = await axiosServices.get(
+            endpointSubject.GET_BY_ID(courseId)
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while getting course detail", courseId, error);
+        throw error;
+    }
+};
+
+export const getUnpublisedCourse = async ({
+    search,
+    grade,
+    pageNumber,
+    pageSize,
+}: Partial<{
+    search: string;
+    grade: string;
+    pageNumber: number;
+    pageSize: number;
+}>): Promise<Pagination<Course>> => {
+    try {
+        const response = await axiosServices.get(
+            `${endpointSubject.GET_UNPUBLISH_COURSES}`,
+            {
+                params: {
+                    search,
+                    grade,
+                    pageNumber,
+                    pageSize,
+                },
+            }
+        );
+
+        const paginationHeader = response.headers["x-pagination"];
+        const metadata: Metadata = JSON.parse(paginationHeader || "{}");
+
+        return {
+            data: response.data,
+            currentPage: metadata.CurrentPage,
+            pageSize: metadata.PageSize,
+            totalCount: metadata.TotalCount,
+            totalPages: metadata.TotalPages,
+        };
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        throw error;
+    }
+};
+
 export const deleteCourse = async (
     courseId: string
 ): Promise<ModelResponse<string>> => {
@@ -81,14 +157,20 @@ export const deleteCourse = async (
     }
 };
 
-export const getCourseById = async (courseId: string): Promise<Course> => {
+export const getUnpublishedCourseById = async (
+    courseId: string
+): Promise<Course> => {
     try {
         const { data } = await axiosServices.get(
-            endpointSubject.GET_BY_ID(courseId)
+            endpointSubject.GET_UNBPUBLISH_BY_ID(courseId)
         );
         return data;
     } catch (error) {
-        console.error("Error while getting course detail", courseId, error);
+        console.error(
+            "Error while getting unpublish course detail",
+            courseId,
+            error
+        );
         throw error;
     }
 };

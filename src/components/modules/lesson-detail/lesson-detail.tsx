@@ -25,10 +25,8 @@ export const LessonDetail = ({
     }
     return (
         <div className="rounded-xl w-full border p-4 bg-background shadow flex flex-col gap-10">
-            <h2 className="text-2xl font-bold">Information</h2>
             <div className="flex flex-col gap-4">
                 <h2 className="text-2xl font-bold">Lesson video</h2>
-
                 {lessonDetail.videoUrl ? (
                     <Player videoUrl={lessonDetail.videoUrl} />
                 ) : (
