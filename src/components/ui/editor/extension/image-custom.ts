@@ -58,9 +58,7 @@ export const ImageCustom = Node.create({
 
     onCreate() {
         // Initialize `selectedImages` in editor storage if it doesn't exist
-        console.log('onCreate');
         if (!this.editor.storage.selectedImages) {
-            console.log('Initializing selectedImages');
             this.editor.storage.selectedImages = new Set();
         }
     },
