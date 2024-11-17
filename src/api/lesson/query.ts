@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     createLessonList,
+    deleteLesson,
     getLessonById,
     getLessonsByChapter,
     updateLesson,
@@ -85,6 +86,35 @@ export const useUpdateLesson = ({ chapterId }: { chapterId: string }) => {
             });
             console.log(data);
             return data;
+        },
+    });
+};
+
+export const useDeleteLessonMutation = ({
+    chapterId,
+}: {
+    chapterId: string;
+}) => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["delete-lessons"],
+        mutationFn: deleteLesson,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["lessons-in-chapter", chapterId],
+            });
+            toast({
+                title: data.message,
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Something error occured",
+                description: "Please try again later",
+                variant: "destructive",
+            });
         },
     });
 };

@@ -83,3 +83,12 @@ export const updateLesson = async ({
         throw error;
     }
 };
+
+export const deleteLesson = async (
+    lessonIds: string[]
+): Promise<ModelResponse<string>> => {
+    const response = await axiosServices.delete(endpointLesson.DELETE_LESSONS, {
+        data: lessonIds,
+    });
+    return response.data;
+};

@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTheory, getLessonTheory, getTheoryById } from "./api";
+import {
+    createTheory,
+    deleteTheory,
+    getLessonTheory,
+    getTheoryById,
+} from "./api";
 import { useToast } from "@/hooks/use-toast";
 
 export const useGetLessonTheoryQuery = ({
@@ -55,5 +60,29 @@ export const useGetTheoryQuery = ({ theoryId }: { theoryId: string }) => {
         queryKey: ["theory", theoryId],
         queryFn: () => getTheoryById({ theoryId: theoryId }),
         enabled: !!theoryId,
+    });
+};
+
+export const useDeleteTheoryMutation = () => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+    return useMutation({
+        mutationKey: ["delete-theory"],
+        mutationFn: deleteTheory,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["theory-in-lesson"],
+            });
+            toast({
+                title: data.data ?? "Delete successfully",
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Some error occured",
+                variant: "destructive",
+            });
+        },
     });
 };

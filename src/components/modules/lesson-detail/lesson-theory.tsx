@@ -16,6 +16,7 @@ export const LessonTheory = ({ lessonId }: LessonTheoryProps) => {
     const [selectedTheoryId, setSelectedTheoryId] = useState<string | null>(
         null
     );
+
     const { data: theoryList, isLoading } = useGetLessonTheoryQuery({
         lessonId: lessonId,
         pageNumber: 1,
@@ -57,7 +58,7 @@ export const LessonTheory = ({ lessonId }: LessonTheoryProps) => {
                                 setAddNew(false);
                             }}
                             className={cn(
-                                "px-3 py-2 transition-all duration-200 w-full font-semibold hover:bg-primary/10 hover:border rounded-lg cursor-pointer",
+                                "px-3 py-2 transition-all duration-200 border bg-background flex flex-row items-center justify-between w-full font-semibold hover:bg-primary/10 hover:border rounded-lg cursor-pointer",
                                 selectedTheoryId === theory.id &&
                                     "bg-primary/10 border-primary border"
                             )}

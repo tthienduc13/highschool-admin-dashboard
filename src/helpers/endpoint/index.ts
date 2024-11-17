@@ -4,7 +4,6 @@ const prefixVersion = "/api/v1";
 const prefixDocumentServices = "/documents-service";
 const prefixMediaServices = "/media-service";
 const prefixAnalyseServices = "/analyse-service";
-const prefixDicussionServices = "/discussion-service";
 
 const endpointCurriculum = {
     GET: `${prefixDocumentServices}${prefixVersion}/curriculum`,
@@ -39,7 +38,7 @@ const endpointSubject = {
     GET_UNBPUBLISH_BY_ID: (courseId: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/unpublish/${courseId}`,
     DELETE_COURSE: (courseId: string) =>
-        `${prefixDicussionServices}${prefixVersion}/subject/${courseId}`,
+        `${prefixDocumentServices}${prefixVersion}/subject/${courseId}`,
     GET_BY_ID: (id: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/${id}`,
     PATH: `${prefixDocumentServices}${prefixVersion}/subject`,
@@ -65,6 +64,7 @@ const endpointLesson = {
     GET_LESSON_BY_ID: (lessonId: string) =>
         `${prefixDocumentServices}${prefixVersion}/chapter/lesson/${lessonId}`,
     PATCH_LESSON: `${prefixDocumentServices}${prefixVersion}/lesson`,
+    DELETE_LESSONS: `${prefixDocumentServices}${prefixVersion}/lessons`,
 };
 
 const endpointInformation = {
@@ -110,6 +110,8 @@ const endPointTheory = {
         `${prefixDocumentServices}${prefixVersion}/theory/${theoryId}`,
     CREATE_MATERIAL_THEORY: (theoryId: string) =>
         `${prefixMediaServices}${prefixVersion}/theory/${theoryId}`,
+    DELETE_THEORY: (theoryId: string) =>
+        `${prefixDocumentServices}${prefixVersion}/theory/${theoryId}`,
 };
 
 const endPointTag = {

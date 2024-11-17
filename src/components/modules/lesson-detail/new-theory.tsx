@@ -78,49 +78,51 @@ export const NewTheory = ({ lessonId, onClose }: NewTheoryProps) => {
     }, [isSuccess]);
 
     return (
-        <div className="w-full">
-            <div className="rounded-t-xl p-4 bg-background border flex flex-row items-center justify-between">
-                <Input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter name"
-                    className="border-none text-xl font-bold text-primary focus-visible:ring-0 shadow-none"
-                />
-                <Button variant={"ghost"} size={"icon"} onClick={onClose}>
-                    <IconX />
-                </Button>
-            </div>
-            <div className="p-4 rounded-b-xl border border-t-0 bg-background flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="description" className="font-semibold">
-                        Description
-                    </Label>
-                    <Textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter description"
-                        className="resize-none"
-                    ></Textarea>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="content" className=" font-semibold">
-                        Content News
-                    </Label>
-                    <ContentEditor
-                        setEditor={setEditorInstance}
-                        contentHtml={contentHtml}
+        <>
+            <div className="w-full">
+                <div className="rounded-t-xl p-4 bg-background border flex flex-row items-center justify-between">
+                    <Input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter name"
+                        className="border-none text-xl font-bold text-primary focus-visible:ring-0 shadow-none"
                     />
-                </div>
-                <div className="flex flex-row justify-end">
-                    <Button disabled={isPending} onClick={handleSubmit}>
-                        {isPending ? (
-                            <IconLoader2 className="animate-spin" />
-                        ) : (
-                            "Save change"
-                        )}
+                    <Button variant={"ghost"} size={"icon"} onClick={onClose}>
+                        <IconX />
                     </Button>
                 </div>
+                <div className="p-4 rounded-b-xl border border-t-0 bg-background flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="description" className="font-semibold">
+                            Description
+                        </Label>
+                        <Textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Enter description"
+                            className="resize-none"
+                        ></Textarea>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="content" className=" font-semibold">
+                            Content News
+                        </Label>
+                        <ContentEditor
+                            setEditor={setEditorInstance}
+                            contentHtml={contentHtml}
+                        />
+                    </div>
+                    <div className="flex flex-row justify-end">
+                        <Button disabled={isPending} onClick={handleSubmit}>
+                            {isPending ? (
+                                <IconLoader2 className="animate-spin" />
+                            ) : (
+                                "Save change"
+                            )}
+                        </Button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     );
 };

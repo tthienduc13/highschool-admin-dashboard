@@ -15,9 +15,21 @@ import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useUpdateLesson } from "@/api/lesson/query";
+import { useDeleteLessonMutation, useUpdateLesson } from "@/api/lesson/query";
+import dynamic from "next/dynamic";
+
+const Alert = dynamic(
+    () =>
+        import("@/components/core/commons/modals/alert-modal").then(
+            (mod) => mod.AlertModal
+        ),
+    {
+        ssr: false,
+    }
+);
 
 export default function LessonCard({ lesson }: { lesson: LessonDetail }) {
+    const [openAlert, setOpenAlert] = useState<boolean>(false);
     const params = useParams();
     const { toast } = useToast();
     const courseId = params.id;
@@ -69,6 +81,9 @@ export default function LessonCard({ lesson }: { lesson: LessonDetail }) {
         }
     };
 
+    const { mutate: deleteLessons, isPending: deletePending } =
+        useDeleteLessonMutation({ chapterId: lesson.chapterId });
+
     const handleCancelEdit = () => {
         setEdit(false);
         setEditableLessonData(null);
@@ -87,121 +102,142 @@ export default function LessonCard({ lesson }: { lesson: LessonDetail }) {
         }
     }, [updateSuccess]);
     return (
-        <Card className="w-full hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-lg font-bold truncate">
-                    <Link
-                        href={`/course-management/unpublished-courses/${courseId}/${lesson.id}`}
-                    >
-                        {lesson.lessonName}
-                    </Link>
-                </CardTitle>
-                <FileTextIcon className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                {edit ? (
-                    <div className="w-full flex flex-col gap-2">
-                        <div className="flex flex-col w-full space-y-2">
-                            <Label
-                                className="text-xs font-semibold"
-                                htmlFor={`lesson-name-${lesson.id}`}
-                            >
-                                Lesson name
-                            </Label>
-                            <Input
-                                id={`lesson-name-${lesson.id}`}
-                                value={editableLessonData?.lessonName || ""}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        "lessonName",
-                                        e.target.value
-                                    )
-                                }
-                                placeholder="Enter lesson name"
-                                className="flex-grow"
-                                required
-                            />
-                        </div>
+        <>
+            <Alert
+                isOpen={openAlert}
+                onClose={() => setOpenAlert(false)}
+                onConfirm={() => deleteLessons([lesson.id])}
+                loading={deletePending}
+            />
+            <Card className="w-full hover:shadow-md transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-lg font-bold truncate">
+                        <Link
+                            href={`/course-management/unpublished-courses/${courseId}/${lesson.id}`}
+                        >
+                            {lesson.lessonName}
+                        </Link>
+                    </CardTitle>
+                    <FileTextIcon className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    {edit ? (
                         <div className="w-full flex flex-col gap-2">
-                            <Label
-                                className="text-xs font-semibold"
-                                htmlFor={`lesson-material-${lesson.id}`}
-                            >
-                                Lesson Material
-                            </Label>
-                            <Input
-                                id={`lesson-material-${lesson.id}`}
-                                value={editableLessonData?.lessonMaterial || ""}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        "lessonMaterial",
-                                        e.target.value
-                                    )
-                                }
-                                placeholder="Enter lesson material"
-                            />
+                            <div className="flex flex-col w-full space-y-2">
+                                <Label
+                                    className="text-xs font-semibold"
+                                    htmlFor={`lesson-name-${lesson.id}`}
+                                >
+                                    Lesson name
+                                </Label>
+                                <Input
+                                    id={`lesson-name-${lesson.id}`}
+                                    value={editableLessonData?.lessonName || ""}
+                                    onChange={(e) =>
+                                        handleInputChange(
+                                            "lessonName",
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Enter lesson name"
+                                    className="flex-grow"
+                                    required
+                                />
+                            </div>
+                            <div className="w-full flex flex-col gap-2">
+                                <Label
+                                    className="text-xs font-semibold"
+                                    htmlFor={`lesson-material-${lesson.id}`}
+                                >
+                                    Lesson Material
+                                </Label>
+                                <Input
+                                    id={`lesson-material-${lesson.id}`}
+                                    value={
+                                        editableLessonData?.lessonMaterial || ""
+                                    }
+                                    onChange={(e) =>
+                                        handleInputChange(
+                                            "lessonMaterial",
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Enter lesson material"
+                                />
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div className="flex items-center space-x-2">
-                            <ListIcon className="h-4 w-4 text-muted-foreground" />
-                            <span>{lesson.quizCount} Quizzes</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <VideoIcon className="h-4 w-4 text-muted-foreground" />
-                            <span>{lesson.theoryCount} Theories</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <span className="font-semibold">Created:</span>
-                            <span>
-                                {new Date(
-                                    lesson.createdAt
-                                ).toLocaleDateString()}
-                            </span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <span className="font-semibold">Order:</span>
-                            <span>{lesson.displayOrder}</span>
-                        </div>
-                    </div>
-                )}
-            </CardContent>
-            <CardFooter className="flex  items-center space-x-2">
-                <Button
-                    className="w-full"
-                    variant={"outline"}
-                    disabled={updatePending}
-                    onClick={edit ? handleCancelEdit : handleEditClick}
-                >
-                    {!edit ? (
-                        <>
-                            <IconEditCircle />
-                            Edit
-                        </>
                     ) : (
-                        "Cancel"
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div className="flex items-center space-x-2">
+                                <ListIcon className="h-4 w-4 text-muted-foreground" />
+                                <span>{lesson.quizCount} Quizzes</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <VideoIcon className="h-4 w-4 text-muted-foreground" />
+                                <span>{lesson.theoryCount} Theories</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <span className="font-semibold">Created:</span>
+                                <span>
+                                    {new Date(
+                                        lesson.createdAt
+                                    ).toLocaleDateString()}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <span className="font-semibold">Order:</span>
+                                <span>{lesson.displayOrder}</span>
+                            </div>
+                        </div>
                     )}
-                </Button>
-                {edit ? (
+                </CardContent>
+                <CardFooter className="flex  items-center space-x-2">
                     <Button
-                        disabled={updatePending || isDataUnchanged()}
                         className="w-full"
-                        onClick={handleSaveLesson}
+                        variant={"outline"}
+                        disabled={updatePending}
+                        onClick={edit ? handleCancelEdit : handleEditClick}
                     >
-                        {updatePending ? (
-                            <IconLoader2 className="animate-spin" />
+                        {!edit ? (
+                            <>
+                                <IconEditCircle />
+                                Edit
+                            </>
                         ) : (
-                            " Save change"
+                            "Cancel"
                         )}
                     </Button>
-                ) : (
-                    <Button className="w-full" variant="destructive">
-                        <IconTrash />
-                        Delete
-                    </Button>
-                )}
-            </CardFooter>
-        </Card>
+                    {edit ? (
+                        <Button
+                            disabled={updatePending || isDataUnchanged()}
+                            className="w-full"
+                            onClick={handleSaveLesson}
+                        >
+                            {updatePending ? (
+                                <IconLoader2 className="animate-spin" />
+                            ) : (
+                                " Save change"
+                            )}
+                        </Button>
+                    ) : (
+                        <Button
+                            className="w-full"
+                            variant="destructive"
+                            onClick={() => setOpenAlert(true)}
+                        >
+                            {deletePending ? (
+                                <IconLoader2 className="animate-spin" />
+                            ) : (
+                                <>
+                                    {" "}
+                                    <IconTrash />
+                                    Delete
+                                </>
+                            )}
+                        </Button>
+                    )}
+                </CardFooter>
+            </Card>
+        </>
     );
 }

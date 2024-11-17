@@ -69,3 +69,19 @@ export const getTheoryById = async ({
         throw error;
     }
 };
+
+export const deleteTheory = async ({
+    theoryId,
+}: {
+    theoryId: string;
+}): Promise<ModelResponse<string>> => {
+    try {
+        const { data } = await axiosServices.delete(
+            endPointTheory.DELETE_THEORY(theoryId)
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while deleting theory", theoryId, error);
+        throw error;
+    }
+};
