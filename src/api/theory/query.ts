@@ -4,6 +4,7 @@ import {
     deleteTheory,
     getLessonTheory,
     getTheoryById,
+    updateTheory,
 } from "./api";
 import { useToast } from "@/hooks/use-toast";
 
@@ -86,3 +87,28 @@ export const useDeleteTheoryMutation = () => {
         },
     });
 };
+
+export const useUpdateTheoryMutation = () => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+
+    return useMutation({
+        mutationKey: ["update-theory"],
+        mutationFn: updateTheory,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["theory-in-lesson"],
+            });
+            toast({
+                title: data.message ?? "Update successfully",
+            });
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Some error occured",
+                variant: "destructive",
+            });
+        },
+    });
+}

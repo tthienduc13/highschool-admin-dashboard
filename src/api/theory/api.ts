@@ -85,3 +85,33 @@ export const deleteTheory = async ({
         throw error;
     }
 };
+
+export const updateTheory = async ({
+    theoryId,
+    theoryName,
+    theoryDescription,
+    theoryContentJson,
+    theoryContentHtml,
+}: {
+    theoryId: string;
+    theoryName?: string;
+    theoryDescription?: string;
+    theoryContentJson?: string;
+    theoryContentHtml?: string;
+}): Promise<ModelResponse<string>> => {
+    try {
+        const { data } = await axiosServices.patch(
+            endPointTheory.UPDATE_THEORY(theoryId),
+            {
+                theoryName,
+                theoryDescription,
+                theoryContentJson,
+                theoryContentHtml,
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error("Error while updating theory", theoryId, error);
+        throw error;
+    }
+}

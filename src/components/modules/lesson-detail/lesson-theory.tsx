@@ -60,7 +60,7 @@ export const LessonTheory = ({ lessonId }: LessonTheoryProps) => {
                             className={cn(
                                 "px-3 py-2 transition-all duration-200 border bg-background flex flex-row items-center justify-between w-full font-semibold hover:bg-primary/10 hover:border rounded-lg cursor-pointer",
                                 selectedTheoryId === theory.id &&
-                                    "bg-primary/10 border-primary border"
+                                "bg-primary/10 border-primary border"
                             )}
                         >
                             {theory.theoryName}
@@ -86,7 +86,7 @@ export const LessonTheory = ({ lessonId }: LessonTheoryProps) => {
                         onClose={() => setAddNew(false)}
                     />
                 ) : (
-                    selectedTheoryId && <Theory theoryId={selectedTheoryId} />
+                    selectedTheoryId && <Theory theoryId={selectedTheoryId} setAddNew={setAddNew} />
                 )}
             </div>
         </div>
