@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { IconLoader2, IconX } from "@tabler/icons-react";
-import { Editor } from "@tiptap/core";
 import { useEffect, useState } from "react";
-import { ContentEditor } from "../../core/commons/editor/content-editor";
 import { useToast } from "@/hooks/use-toast";
 import { useCreateTheoryMutation, useUpdateTheoryMutation } from "@/api/theory/query";
 import { Theory } from "@/api/theory/type";
+import MinimalTiptapEditor from "@/components/ui/minimal-editor/minimal-tiptap";
+import { ContentData } from "@/components/ui/minimal-editor/types";
 
 interface NewTheoryProps {
     lessonId: string;
@@ -20,10 +20,9 @@ interface NewTheoryProps {
 
 export const NewTheory = ({ lessonId, onClose, initTheory }: NewTheoryProps) => {
     const { toast } = useToast();
-    const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
     const [name, setName] = useState(initTheory?.theoryName ?? "Theory name");
     const [description, setDescription] = useState(initTheory?.theoryDescription ?? "");
-    const contentHtml = initTheory?.theoryContentHtml ?? "";
+    const [contentData, setContentData] = useState<ContentData>();
 
     const {
         mutate: createTheory,
@@ -37,12 +36,11 @@ export const NewTheory = ({ lessonId, onClose, initTheory }: NewTheoryProps) => 
         mutate: updateTheory,
         isSuccess: updateSuccess,
         isPending: updatePending,
-    } = useUpdateTheoryMutation();
+    } = useUpdateTheoryMutation({
+        theoryId: initTheory?.id as string,
+    });
 
-    const handleSubmit = () => {
-        if (!editorInstance) {
-            return;
-        }
+    const handleSubmit = async () => {
         if (name.length < 10) {
             toast({
                 title: "Validation Error",
@@ -59,7 +57,8 @@ export const NewTheory = ({ lessonId, onClose, initTheory }: NewTheoryProps) => 
             });
             return;
         }
-        if (editorInstance.getText().length < 10) {
+        const textEditor = contentData?.contentText as string;
+        if (textEditor.length < 10) {
             toast({
                 title: "Validation Error",
                 description: "Content must be at least 10 characters long.",
@@ -68,23 +67,33 @@ export const NewTheory = ({ lessonId, onClose, initTheory }: NewTheoryProps) => 
             return;
         }
 
+        const content = await contentData?.onGetContentData();
+
+        if (!content) {
+            toast({
+                title: "Failed",
+                variant: "destructive",
+                description: "Failed to create news",
+            });
+
+            return;
+        }
+
         if (initTheory) {
-            console.log("update theory");
             updateTheory({
                 theoryId: initTheory.id,
                 theoryName: name,
                 theoryDescription: description,
-                theoryContentJson: editorInstance.getText(),
-                theoryContentHtml: editorInstance.getHTML(),
+                theoryContentJson: content?.contentText as string,
+                theoryContentHtml: content?.contentHtml as string,
             });
         } else {
-            console.log("create theory");
             createTheory({
                 lessonId: lessonId,
                 theoryName: name,
                 theoryDescription: description,
-                theoryContent: editorInstance.getText(),
-                theoryContentHtml: editorInstance.getHTML(),
+                theoryContent: content?.contentText as string,
+                theoryContentHtml: content?.contentHtml as string,
             });
         }
     };
@@ -127,9 +136,15 @@ export const NewTheory = ({ lessonId, onClose, initTheory }: NewTheoryProps) => 
                     <Label htmlFor="content" className=" font-semibold">
                         Content News
                     </Label>
-                    <ContentEditor
-                        setEditor={setEditorInstance}
-                        contentHtml={contentHtml}
+                    <MinimalTiptapEditor
+                        value={initTheory?.theoryContentHtml}
+                        setContentData={setContentData}
+                        className="w-full"
+                        editorContentClassName="p-5"
+                        placeholder="Type your description here..."
+                        autofocus={true}
+                        editable={true}
+                        editorClassName="focus:outline-none"
                     />
                 </div>
                 <div className="flex flex-row justify-end">

@@ -239,15 +239,14 @@ export function FileUploader(props: FileUploaderProps) {
                                     <p className="text-sm text-muted-foreground/70">
                                         You can upload
                                         {maxFileCount > 1
-                                            ? ` ${
-                                                  maxFileCount === Infinity
-                                                      ? "multiple"
-                                                      : maxFileCount
-                                              }
+                                            ? ` ${maxFileCount === Infinity
+                                                ? "multiple"
+                                                : maxFileCount
+                                            }
                       files (up to ${formatBytes(maxSize)} each)`
                                             : ` a file with ${formatBytes(
-                                                  maxSize
-                                              )}`}
+                                                maxSize
+                                            )}`}
                                     </p>
                                 </div>
                             </div>

@@ -16,11 +16,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Upload } from "lucide-react";
 import { useState } from "react";
 import { ComboboxTag } from "./combobox-tag";
-import { ContentEditor } from "../../core/commons/editor/content-editor";
 import { useCreateBlogMutation } from "@/api/news/news.query";
 import { useToast } from "@/hooks/use-toast";
-import { Editor } from "@tiptap/core";
-import { useUploadImageToCloudinary } from "@/api/external/cloudinary/upload-image.query";
+import MinimalTiptapEditor from "@/components/ui/minimal-editor/minimal-tiptap";
+import { ContentData } from "@/components/ui/minimal-editor/types";
 
 function CreateNewsModule() {
     const titleHeading = "Create News";
@@ -29,10 +28,8 @@ function CreateNewsModule() {
     const [image, setImage] = useState<File | null>(null);
     const [tag, setTag] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
-    const { mutateAsync: uploadImage } = useUploadImageToCloudinary();
     const { toast } = useToast();
-    const contentHtml = editorInstance?.getHTML() ?? "";
+    const [contentData, setContentData] = useState<ContentData>();
 
     const { mutateAsync: createBlogMutation, isPending: isLoading } =
         useCreateBlogMutation();
@@ -41,43 +38,6 @@ function CreateNewsModule() {
         queryKey: ["province"],
         queryFn: getProvince,
     });
-
-    const handleUploadImage = async (buffer: ArrayBuffer) => {
-        const file = new File([new Blob([buffer])], "avatar.png", {
-            type: "image/png",
-        });
-
-        try {
-            return await uploadImage({ file });
-        } catch (error) {
-            console.error("Upload failed:", error);
-            return "";
-        }
-    };
-
-    const handleFetchContent = async () => {
-        if (editorInstance) {
-            const textContent = editorInstance.getText();
-            let htmlContent = editorInstance.getHTML();
-            const uploadedImages =
-                editorInstance.storage.storageCustom.uploadedImages;
-            const replacementPromises = uploadedImages.map(
-                async (image: string) => {
-                    const urlImage = await handleUploadImage(
-                        image as unknown as ArrayBuffer
-                    );
-                    htmlContent = htmlContent.replaceAll(image, urlImage);
-                }
-            );
-
-            // Wait for all replacements to complete
-            await Promise.all(replacementPromises);
-
-            return { textContent, htmlContent };
-        }
-
-        return { textContent: "", htmlContent: "" };
-    };
 
     const handleThumbnailUpload = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -94,6 +54,53 @@ function CreateNewsModule() {
     };
 
     const handleCreateBlog = async () => {
+
+        if (title.length < 10) {
+            toast({
+                title: "Validation Error",
+                description: "Title must be at least 10 characters long.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        if (!selectedProvince) {
+            toast({
+                title: "Validation Error",
+                description: "Please select province",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        if (!tag) {
+            toast({
+                title: "Validation Error",
+                description: "Please select tag",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        if (!image) {
+            toast({
+                title: "Validation Error",
+                description: "Please upload thumbnail",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        const textEditor = contentData?.contentText as string;
+        if (textEditor.length < 10) {
+            toast({
+                title: "Validation Error",
+                description: "Content must be at least 10 characters long.",
+                variant: "destructive",
+            });
+            return;
+        }
+
         toast({
             title: "Creating...",
             variant: "default",
@@ -101,13 +108,23 @@ function CreateNewsModule() {
         });
 
         try {
-            const { textContent, htmlContent } = await handleFetchContent();
+            const content = await contentData?.onGetContentData();
+
+            if (!content) {
+                toast({
+                    title: "Failed",
+                    variant: "destructive",
+                    description: "Failed to create news",
+                });
+
+                return;
+            }
 
             const result = await createBlogMutation({
                 newsTagId: tag,
                 newName: title,
-                content: textContent,
-                contentHtml: htmlContent,
+                content: content?.contentText as string,
+                contentHtml: content?.contentHtml as string,
                 image: image as File,
                 location: selectedProvince,
             });
@@ -249,10 +266,21 @@ function CreateNewsModule() {
                         >
                             Content News
                         </Label>
-                        <ContentEditor
+                        {/* <ContentEditor
                             setEditor={setEditorInstance}
                             contentHtml={contentHtml}
+                        /> */}
+                        <MinimalTiptapEditor
+                            setContentData={setContentData}
+                            className="w-full"
+                            editorContentClassName="p-5"
+                            placeholder="Type your description here..."
+                            output="html"
+                            autofocus={true}
+                            editable={true}
+                            editorClassName="focus:outline-none"
                         />
+
                     </div>
                     <Button
                         className="w-full"

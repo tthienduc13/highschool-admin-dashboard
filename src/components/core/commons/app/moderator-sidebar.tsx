@@ -126,7 +126,7 @@ const data = {
                     url: "/course-management/unpublished-courses",
                 },
                 {
-                    title: "Settings",
+                    title: "Ciriculum",
                     url: "#",
                 },
             ],

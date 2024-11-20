@@ -1,15 +1,16 @@
 'use client'
 
-import { ContentEditor } from "@/components/core/commons/editor/content-editor";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { IconCalendarClock, IconMapPin, IconTrash, IconUserCircle } from "@tabler/icons-react";
-import { Editor } from "@tiptap/core";
 import { useState } from "react";
+import Image from 'next/image';
 import { convertDateString, convertTimeAgo } from "@/utils/time";
 import { Eye, Flame, Tag } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useNewsDetailQuery } from "@/api/news/news.query";
 import { Skeleton } from "@/components/ui/skeleton";
+import MinimalTiptapEditor from "@/components/ui/minimal-editor/minimal-tiptap";
+import { ContentData } from "@/components/ui/minimal-editor/types";
 
 interface NewsDetailModuleProps {
     slug: string;
@@ -18,14 +19,14 @@ interface NewsDetailModuleProps {
 function NewsDetailModule({ slug }: NewsDetailModuleProps) {
     const titleHeading = "Update News";
 
-    const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
+    const [contentData, setContentData] = useState<ContentData>();
     const {
         data: initialNewsData,
         isLoading,
     } = useNewsDetailQuery(slug);
 
     if (isLoading) {
-        if (editorInstance) {
+        if (contentData) {
             console.log("ok");
         }
 
@@ -107,14 +108,26 @@ function NewsDetailModule({ slug }: NewsDetailModuleProps) {
                         </div>
                     </div>
                     <div>
-                        <img
-                            src={initialNewsData?.image}
+                        <Image
+                            src={initialNewsData?.image ?? ""}
                             alt="thumbnail"
+                            layout="responsive"
+                            width={700}
+                            height={475}
                             className="w-full object-cover rounded-lg"
                         />
                     </div>
 
-                    <ContentEditor contentHtml={initialNewsData?.contentHtml ?? ""} setEditor={setEditorInstance} />
+                    <MinimalTiptapEditor
+                        value={initialNewsData?.contentHtml}
+                        setContentData={setContentData}
+                        className="w-full"
+                        editorContentClassName="p-5"
+                        placeholder="Type your description here..."
+                        autofocus={true}
+                        editable={true}
+                        editorClassName="focus:outline-none"
+                    />
                 </CardContent>
             </Card>
 
