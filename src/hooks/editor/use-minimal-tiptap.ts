@@ -29,7 +29,7 @@ import { storageCustom } from '@/components/ui/minimal-editor/storage/storage-cu
 import { TextAlign } from "@tiptap/extension-text-align";
 import MathExtension from '@/components/ui/minimal-editor/math/math-extention'
 import { ContentData } from '@/components/ui/minimal-editor/types'
-import { useUploadImageToCloudinary } from '@/api/external/cloudinary/upload-image.query'
+import { useUploadNewsToCloudinary } from '@/api/external/cloudinary/upload-image.query'
 
 export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
   value?: Content
@@ -148,7 +148,7 @@ export const useMinimalTiptapEditor = ({
   ...props
 }: UseMinimalTiptapEditorProps) => {
   const throttledSetValue = useThrottle((value: Content) => onUpdate?.(value), throttleDelay)
-  const { mutateAsync: uploadImage } = useUploadImageToCloudinary();
+  const { mutateAsync: uploadImage } = useUploadNewsToCloudinary();
 
   const handleUpdate = React.useCallback(
     (editor: Editor) => throttledSetValue(getOutput(editor, output)),

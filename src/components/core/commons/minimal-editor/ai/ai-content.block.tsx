@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useGenerateAIMutation } from '@/api/external/ai/ai.query'
 import { useToast } from '@/hooks/use-toast'
 import { extractBodyContent } from '@/utils/utils'
+import { Bot } from 'lucide-react'
 
 interface AIContentBlockProps {
     editor: Editor
@@ -111,8 +112,12 @@ export const AIContentBlock: React.FC<AIContentBlockProps> = ({ editor, close })
                     }}
                     disabled={isLoading}
                 >
-                    <SelectTrigger className="h-8 w-[16vw]">
-                        <SelectValue placeholder="what can I help you with?" />
+                    <SelectTrigger className="h-8 w-fit">
+                        <div className='flex items-center'>
+                            <Bot className="w-4 dark:text-white" />
+                            <div className="h-6 w-[1px] bg-black/10 dark:bg-white/10 mx-2" />
+                            <SelectValue placeholder="what can I help you with?" />
+                        </div>
                     </SelectTrigger>
                     <SelectContent side="top">
                         {typeContentList.map((status) => (
@@ -144,7 +149,7 @@ export const AIContentBlock: React.FC<AIContentBlockProps> = ({ editor, close })
                 </div>
             </div>
             <Button type="button" className="w-full" disabled={isLoading} onClick={handleGenerate}>
-                Generate
+                {isLoading ? 'Thinking...' : 'Generate'}
             </Button>
         </div>
     )
