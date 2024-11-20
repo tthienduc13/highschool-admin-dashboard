@@ -76,16 +76,15 @@ export const ImageUploader: React.FC = () => {
                     render={() => (
                         <FormItem className="w-full">
                             <FormLabel
-                                className={`${
-                                    fileRejections.length !== 0 &&
+                                className={`${fileRejections.length !== 0 &&
                                     "text-destructive"
-                                }`}
+                                    }`}
                             >
                                 <h2 className="text-xl font-semibold tracking-tight">
                                     <span
                                         className={
                                             form.formState.errors.image ||
-                                            fileRejections.length !== 0
+                                                fileRejections.length !== 0
                                                 ? "text-destructive"
                                                 : "text-muted-foreground"
                                         }
@@ -106,9 +105,8 @@ export const ImageUploader: React.FC = () => {
                                         />
                                     )}
                                     <IconUpload
-                                        className={`size-10 ${
-                                            preview ? "hidden" : "block"
-                                        }`}
+                                        className={`size-10 ${preview ? "hidden" : "block"
+                                            }`}
                                     />
 
                                     <Input {...getInputProps()} type="file" />
@@ -138,7 +136,7 @@ export const ImageUploader: React.FC = () => {
                         <Button
                             type="submit"
                             disabled={form.formState.isSubmitting}
-                            // className="mx-auto block h-auto rounded-lg px-8 py-3 text-xl"
+                        // className="mx-auto block h-auto rounded-lg px-8 py-3 text-xl"
                         >
                             Save
                         </Button>

@@ -88,7 +88,7 @@ export const useDeleteTheoryMutation = () => {
     });
 };
 
-export const useUpdateTheoryMutation = () => {
+export const useUpdateTheoryMutation = ({ theoryId }: { theoryId: string }) => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
 
@@ -97,8 +97,11 @@ export const useUpdateTheoryMutation = () => {
         mutationFn: updateTheory,
         onSuccess: (data) => {
             queryClient.invalidateQueries({
-                queryKey: ["theory-in-lesson"],
+                queryKey: ["theory", theoryId],
             });
+            queryClient.invalidateQueries({
+                queryKey: ["theory-in-lesson"],
+            })
             toast({
                 title: data.message ?? "Update successfully",
             });

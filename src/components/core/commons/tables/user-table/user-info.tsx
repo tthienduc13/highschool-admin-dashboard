@@ -2,7 +2,6 @@ import { useUserDetailQuery } from "@/api/user/query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserTableContext } from "@/stores/use-user-table-store";
-import { Display } from "../../../../ui/editor/text-display";
 import {
     IconBrandGoogleFilled,
     IconMail,
@@ -11,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { isStudent } from "@/lib/user-role-check";
 import { motion } from "framer-motion";
+import { Display } from "../text-display";
 
 export const UserInfo = () => {
     const selectedUser = useUserTableContext((s) => s.selectedUser);

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
+import "@/styles/editor.css"
 import AppProviders from "@/components/core/commons/providers/app-provider";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/toaster";
+import "katex/dist/katex.min.css";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
