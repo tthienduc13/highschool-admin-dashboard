@@ -7,6 +7,7 @@ const prefixAnalyseServices = "/analyse-service";
 
 const endpointCurriculum = {
     GET: `${prefixDocumentServices}${prefixVersion}/curriculum`,
+    CREATE: `${prefixDocumentServices}${prefixVersion}/curriculum`,
 };
 
 const endpointAuth = {
@@ -19,7 +20,7 @@ const endpointUser = {
     GET_USER_DETAIL: (userId: string) =>
         `${prefixUserServices}${prefixVersion}/users/infor/${userId}`,
     UPDATE_USER: `${prefixUserServices}${prefixVersion}/users/baseuser`,
-    CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`,
+    CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`
 };
 
 const endpointSubjectCurriculum = {
@@ -136,6 +137,17 @@ const endPointVideo = {
         `https://media-service-highschool.azurewebsites.net/api/video/lesson/${id}/merge`,
 };
 
+const endPointUniversity = {
+    GET_UNIVERSITY: `${prefixUserServices}${prefixVersion}/university`,
+    CREATE_UNIVERSITY: `${prefixUserServices}${prefixVersion}/university`,
+    GET_UNIVERSITY_DETAIL: (universityId: string) =>
+        `${prefixUserServices}${prefixVersion}/university/${universityId}`,
+    UPDATE_UNIVERSITY: (universityId: string) =>
+        `${prefixUserServices}${prefixVersion}/university/${universityId}`,
+    DELETE_UNIVERSITY: (universityId: string) =>
+        `${prefixUserServices}${prefixVersion}/university/${universityId}`
+}
+
 export {
     endpointAuth,
     endpointUser,
@@ -155,4 +167,5 @@ export {
     endpointCurriculum,
     endpointSubjectCurriculum,
     endpointDocumentMedia,
+    endPointUniversity
 };

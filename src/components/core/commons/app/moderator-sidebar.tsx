@@ -110,6 +110,10 @@ const data = {
                     title: "Limits",
                     url: "#",
                 },
+                {
+                    title: "University",
+                    url: "/master-data/university",
+                }
             ],
         },
         {
@@ -124,10 +128,6 @@ const data = {
                 {
                     title: "Unpublished Course",
                     url: "/course-management/unpublished-courses",
-                },
-                {
-                    title: "Ciriculum",
-                    url: "#",
                 },
             ],
         },
