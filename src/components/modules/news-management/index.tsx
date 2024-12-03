@@ -29,7 +29,7 @@ function NewsManagementModule() {
         queryFn: getProvince,
     });
 
-    const debounceSearch = useDebounceValue(searchQuery, 300);
+    const debounceSearch: string = useDebounceValue(searchQuery, 300);
 
     const {
         data: initialNewsData,

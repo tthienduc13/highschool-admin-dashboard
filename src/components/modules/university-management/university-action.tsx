@@ -1,9 +1,11 @@
+import { useQueryCountry } from "@/api/external/country/country.query";
 import { useCreateUniversityListMutation, useUpdateUniversityMutation } from "@/api/university/query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import useUniversityStore from "@/stores/use-university";
+import { useUniversityStore } from "@/stores/use-university";
 import { IconLoader2 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -21,21 +23,21 @@ export const UniversityAction = ({ mode }: UniversityActionProps) => {
     const closeEdit = useUniversityStore((s) => s.closeEdit);
     const university = useUniversityStore((s) => s.editUniversity);
 
-    const isPending = isCreating || isUpdating;
-    const isDisabled = isPending;
+    const isDisabled = isCreating || isUpdating;;
 
     const [uniCode, setUniCode] = useState(university?.uniCode || "");
     const [name, setName] = useState(university?.name || "");
     const [description, setDescription] = useState(university?.description || "");
-    const [region, setRegion] = useState(university?.region || "");
     const [contactPhone, setContactPhone] = useState(university?.contactPhone || "");
     const [contactEmail, setContactEmail] = useState(university?.contactEmail || "");
     const [websiteLink, setWebsiteLink] = useState(university?.websiteLink || "");
+    const [selectedProvince, setSelectedProvince] = useState<string>(university?.region || "");
+    const { data: countries } = useQueryCountry();
 
     const resetField = () => {
         setName("");
         setDescription("");
-        setRegion("");
+        setSelectedProvince("");
         setContactPhone("");
         setContactEmail("");
         setWebsiteLink("");
@@ -50,7 +52,7 @@ export const UniversityAction = ({ mode }: UniversityActionProps) => {
                     contactPhone: contactPhone,
                     description: description,
                     name: name,
-                    region: region,
+                    region: selectedProvince,
                     websiteLink: websiteLink,
                     uniCode: uniCode
                 })
@@ -61,7 +63,7 @@ export const UniversityAction = ({ mode }: UniversityActionProps) => {
                         uniCode,
                         name,
                         description,
-                        region,
+                        region: selectedProvince,
                         contactPhone,
                         contactEmail,
                         websiteLink,
@@ -151,8 +153,7 @@ export const UniversityAction = ({ mode }: UniversityActionProps) => {
                                 (required)
                             </span>
                         </Label>
-                        <Input
-                            type="text"
+                        <Textarea
                             placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -165,11 +166,32 @@ export const UniversityAction = ({ mode }: UniversityActionProps) => {
                                 (required)
                             </span>
                         </Label>
-                        <Textarea
-                            placeholder="Region"
-                            value={region}
-                            onChange={(e) => setRegion(e.target.value)}
-                        />
+                        <Select
+                            value={selectedProvince ?? ""}
+                            onValueChange={setSelectedProvince}
+                        >
+                            <SelectTrigger className="mr-4 rounded-lg border-2 bg-background text-left">
+                                <SelectValue
+                                    placeholder="Select your province"
+                                    className="px-4"
+                                />
+                            </SelectTrigger>
+                            <SelectContent
+                                onCloseAutoFocus={(e) =>
+                                    e.preventDefault()
+                                }
+                                className="h-[50vh] overflow-y-auto placeholder:text-muted-foreground"
+                            >
+                                {countries?.map((country) => (
+                                    <SelectItem
+                                        key={country.code}
+                                        value={country.name}
+                                    >
+                                        {country.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div>
                         <Label className="text-sm font-semibold">

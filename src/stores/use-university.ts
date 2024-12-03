@@ -1,4 +1,4 @@
-import { University } from "@/api/university/type";
+import { University, UniversityMajor } from "@/api/university/type";
 import { create } from "zustand";
 
 interface UniversityState {
@@ -31,4 +31,34 @@ const useUniversityStore = create<UniversityState>((set) => ({
     closeEdit: () => set({ isOpenEdit: false, editUniversity: null })
 }));
 
-export default useUniversityStore;
+interface UniversityMajorState {
+    isOpenCreate: boolean;
+    isOpenEdit: boolean;
+    editUniversityMajor: UniversityMajor | null;
+    openCreate: () => void;
+    openEdit: (universityMajor: UniversityMajor) => void;
+    closeCreate: () => void;
+    closeEdit: () => void;
+}
+
+const useUniversityMajorStore = create<UniversityMajorState>((set) => ({
+    isOpenCreate: false,
+    isOpenEdit: false,
+    editUniversityMajor: null,
+    openCreate: () =>
+        set({
+            isOpenCreate: true,
+            isOpenEdit: false,
+            editUniversityMajor: null,
+        }),
+    openEdit: (universityMajor) =>
+        set({
+            isOpenCreate: false,
+            isOpenEdit: true,
+            editUniversityMajor: universityMajor,
+        }),
+    closeCreate: () => set({ isOpenCreate: false }),
+    closeEdit: () => set({ isOpenEdit: false, editUniversityMajor: null })
+}));
+
+export { useUniversityStore, useUniversityMajorStore };

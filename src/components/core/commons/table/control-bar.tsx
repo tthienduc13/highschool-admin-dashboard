@@ -23,6 +23,7 @@ interface ControlBarProps {
     totalCount: number;
     totalPage: number;
     setPagination: (pagination: PaginationState) => void;
+    className?: string;
 }
 
 export const ControlBar = ({
@@ -31,11 +32,12 @@ export const ControlBar = ({
     currentPage,
     pageSize,
     totalPage,
+    className,
 }: ControlBarProps) => {
     const start = (currentPage - 1) * pageSize + 1;
     const end = Math.min(start + pageSize - 1, totalCount);
     return (
-        <div className="flex w-full items-center justify-between">
+        <div className={`flex w-full items-center justify-between ${className}`}>
             <div className="text-sm text-gray-500 dark:text-gray-400">
                 Showing{" "}
                 <span className="font-medium text-gray-900 dark:text-gray-100">
@@ -89,8 +91,8 @@ export const ControlBar = ({
                                     >
                                         {pageSize.toString() ===
                                             option.value && (
-                                            <IconCheck size={16} />
-                                        )}
+                                                <IconCheck size={16} />
+                                            )}
                                     </Checkbox>
                                     <Label className="text-sm cursor-pointer">
                                         {option.label}

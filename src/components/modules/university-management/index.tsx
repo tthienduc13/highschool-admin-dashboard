@@ -14,7 +14,7 @@ import { useCreateUniversityListMutation, useUniversityQuery } from "@/api/unive
 import { UniversityColumns } from "../../core/commons/tables/university-table/university-colum";
 import { CsvImporter } from "@/components/core/commons/csv-importer";
 import { UniversityAction } from "./university-action";
-import useUniversityStore from "@/stores/use-university";
+import { useUniversityStore } from "@/stores/use-university";
 
 
 function UniverstyManagementModule() {

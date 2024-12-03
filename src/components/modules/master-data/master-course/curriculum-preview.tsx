@@ -1,24 +1,18 @@
 import { useCurriculumMutation, useCurriculumQuery } from "@/api/curriculum/query";
-import { Curriculum } from "@/api/curriculum/type";
-import { DataTable } from "@/components/core/commons/table";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useDebounceValue } from "@/hooks/use-debounce-value";
 import { useToast } from "@/hooks/use-toast";
-import { IconSearch } from "@tabler/icons-react";
-import { PaginationState } from "@tanstack/react-table";
-import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
 
 export const CiriculumPreview = () => {
     const [open, setOpen] = useState(false);
-    const { data: curriculums, isLoading: curriculumLoading } =
+    const { data: curriculums } =
         useCurriculumQuery();
-    const { mutate: createCurriculum, isPending: isCreateLoading } = useCurriculumMutation();
+    const { mutate: createCurriculum } = useCurriculumMutation();
     const [curriculumName, setCurriculumName] = useState<string>("");
     const { toast } = useToast();
 

@@ -47,6 +47,7 @@ const endpointSubject = {
     GET_BY_SLUG: `${prefixDocumentServices}${prefixVersion}/subject/slug`,
     UNPUBLISH_COURSE: (courseId: string) =>
         `${prefixDocumentServices}${prefixVersion}/subject/${courseId}/unpublish`,
+    GET_SUBJECTS: `${prefixDocumentServices}${prefixVersion}/subjects`,
 };
 
 const endpoinChapter = {
@@ -83,8 +84,9 @@ const endpointRoadmap = {
 };
 
 const endpointDocument = {
-    GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents`,
+    GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents/advance`,
     CREATE: `${prefixDocumentServices}${prefixVersion}/document`,
+    DELETE: (id: string) => `${prefixDocumentServices}${prefixVersion}/document/${id}`,
 };
 
 const endpointDocumentMedia = {
@@ -139,13 +141,47 @@ const endPointVideo = {
 
 const endPointUniversity = {
     GET_UNIVERSITY: `${prefixUserServices}${prefixVersion}/university`,
+    GET_UNIVERSITY_NAME: `${prefixUserServices}${prefixVersion}/university/name`,
     CREATE_UNIVERSITY: `${prefixUserServices}${prefixVersion}/university`,
     GET_UNIVERSITY_DETAIL: (universityId: string) =>
         `${prefixUserServices}${prefixVersion}/university/${universityId}`,
     UPDATE_UNIVERSITY: (universityId: string) =>
         `${prefixUserServices}${prefixVersion}/university/${universityId}`,
     DELETE_UNIVERSITY: (universityId: string) =>
-        `${prefixUserServices}${prefixVersion}/university/${universityId}`
+        `${prefixUserServices}${prefixVersion}/university/${universityId}`,
+    GET_UNIVERSITY_MAJOR: `${prefixUserServices}${prefixVersion}/universityMajor`,
+    GET_UNIVERSITY_MAJOR_NAME: `${prefixUserServices}${prefixVersion}/universityMajor/name`,
+    CREATE_UNIVERSITY_MAJOR: `${prefixUserServices}${prefixVersion}/universityMajor`,
+    UPDATE_UNIVERSITY_MAJOR: (universityMajorId: string) =>
+        `${prefixUserServices}${prefixVersion}/universityMajor/${universityMajorId}`,
+    DELETE_UNIVERSITY_MAJOR: (universityMajorId: string) =>
+        `${prefixUserServices}${prefixVersion}/universityMajor/${universityMajorId}`,
+}
+
+const endPointOccupation = {
+    GET_OCCUPATIONS: `${prefixUserServices}${prefixVersion}/occupation`,
+    CREATE_OCCUPATION: `${prefixUserServices}${prefixVersion}/occupation`,
+    UPDATE_OCCUPATION: (occupationId: string) =>
+        `${prefixUserServices}${prefixVersion}/occupation/${occupationId}`,
+    DELETE_OCCUPATION: (occupationId: string) =>
+        `${prefixUserServices}${prefixVersion}/occupation/${occupationId}`,
+}
+
+const endPointMajor = {
+    GET_MAJOR: `${prefixUserServices}${prefixVersion}/major`,
+    GET_MAJOR_NAME: `${prefixUserServices}${prefixVersion}/major/name`,
+    CREATE_MAJOR: `${prefixUserServices}${prefixVersion}/major`,
+    UPDATE_MAJOR: (majorId: string) =>
+        `${prefixUserServices}${prefixVersion}/major/${majorId}`,
+    DELETE_MAJOR: (majorId: string) =>
+        `${prefixUserServices}${prefixVersion}/major/${majorId}`,
+    GET_MAJOR_CATEGORY: `${prefixUserServices}${prefixVersion}/majorCategory`,
+    GET_MAJOR_CATEGORY_NAME: `${prefixUserServices}${prefixVersion}/majorCategory/name`,
+    CREATE_MAJOR_CATEGORY: `${prefixUserServices}${prefixVersion}/majorCategory`,
+    UPDATE_MAJOR_CATEGORY: (majorCategoryId: string) =>
+        `${prefixUserServices}${prefixVersion}/majorCategory/${majorCategoryId}`,
+    DELETE_MAJOR_CATEGORY: (majorCategoryId: string) =>
+        `${prefixUserServices}${prefixVersion}/majorCategory/${majorCategoryId}`,
 }
 
 export {
@@ -167,5 +203,7 @@ export {
     endpointCurriculum,
     endpointSubjectCurriculum,
     endpointDocumentMedia,
-    endPointUniversity
+    endPointUniversity,
+    endPointOccupation,
+    endPointMajor
 };

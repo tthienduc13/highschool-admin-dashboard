@@ -5,11 +5,11 @@ import { ColumnDef } from "@tanstack/react-table";
 export const UniversityColumns: ColumnDef<University>[] = [
     {
         accessorKey: "uniCode",
-        header: "University Code",
+        header: "Code",
     },
     {
         accessorKey: "name",
-        header: "University Name",
+        header: "Name",
         cell: ({ row }) => <a href={row.original.websiteLink} target="_blank" rel="noopener noreferrer">{row.original.name}</a>,
     },
     {
@@ -22,11 +22,11 @@ export const UniversityColumns: ColumnDef<University>[] = [
     },
     {
         accessorKey: "contactPhone",
-        header: "Contact Phone"
+        header: "Phone"
     },
     {
         accessorKey: "contactEmail",
-        header: "Contact Email"
+        header: "Email"
     },
     {
         id: "actions",

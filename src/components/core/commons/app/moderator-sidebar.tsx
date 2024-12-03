@@ -179,17 +179,17 @@ const data = {
                     url: "/career-mentor/mbti",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
+                    title: "Majors",
+                    url: "/career-mentor/major",
                 },
                 {
-                    title: "Tutorials",
-                    url: "#",
+                    title: "Major Category",
+                    url: "/career-mentor/major-category",
                 },
                 {
-                    title: "Changelog",
-                    url: "#",
-                },
+                    title: "Occupation",
+                    url: "/career-mentor/occupation",
+                }
             ],
         },
     ],

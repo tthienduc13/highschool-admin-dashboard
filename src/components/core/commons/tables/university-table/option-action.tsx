@@ -1,9 +1,10 @@
 import { useDeleteUniversityMutation } from "@/api/university/query";
 import { University } from "@/api/university/type";
 import { Button } from "@/components/ui/button";
-import useUniversityStore from "@/stores/use-university";
-import { IconEditCircle, IconTrash } from "@tabler/icons-react";
+import { useUniversityStore } from "@/stores/use-university";
+import { IconEditCircle, IconExclamationCircle, IconTrash } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Alert = dynamic(
@@ -22,6 +23,7 @@ export const OptionAction = ({ university }: OptionActionProps) => {
     const [openAlert, setOpenAlert] = useState<boolean>(false);
     const { mutate: deleteUniversity, isPending } = useDeleteUniversityMutation();
     const openEdit = useUniversityStore((s) => s.openEdit);
+    const router = useRouter();
 
     return (
         <>
@@ -38,6 +40,13 @@ export const OptionAction = ({ university }: OptionActionProps) => {
                     onClick={() => openEdit(university)} // Pass the courseId here
                 >
                     <IconEditCircle />
+                </Button>
+                <Button
+                    size={"icon"}
+                    variant={"secondary"}
+                    onClick={() => router.push(`/master-data/university/${university.uniCode}`)}
+                >
+                    <IconExclamationCircle />
                 </Button>
                 <Button
                     size={"icon"}
