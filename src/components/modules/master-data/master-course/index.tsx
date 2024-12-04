@@ -23,6 +23,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { CiriculumPreview } from "./curriculum-preview";
 
 const CourseAction = dynamic(
     () => import("./course-action").then((mod) => mod.CourseAction),
@@ -110,6 +111,7 @@ function MasterCourseModule() {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <CiriculumPreview />
                             <Button onClick={openCreate}>
                                 <IconPlus /> Add new
                             </Button>

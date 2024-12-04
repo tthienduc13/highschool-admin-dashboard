@@ -54,6 +54,7 @@ export const CourseAction = ({ mode }: CourseActionProps) => {
         useCategoriesQuery();
     const { mutate: createCourse, isPending: isCreating } =
         useCreateCourseMutation();
+
     const {
         data: courseData,
         isLoading: isLoadingCourse,

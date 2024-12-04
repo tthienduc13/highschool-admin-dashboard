@@ -62,3 +62,12 @@ export type Student = User & {
     schoolName: string;
     enrollments: unknown[];
 };
+
+export type UserCreate = {
+    username: string,
+    email: string,
+    bio: string,
+    fullName: string,
+    password: string,
+    profilePicture: string
+}

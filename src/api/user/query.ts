@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { UserRole, UserStatus } from "./type";
-import { getUserDetail, getUsers } from "./api";
+import { createAccount, getUserDetail, getUsers } from "./api";
+import { useToast } from "@/hooks/use-toast";
 
 export const useUsersQuery = ({
     page,
@@ -35,3 +36,28 @@ export const useUserDetailQuery = (email: string) => {
         enabled: !!email,
     });
 };
+
+export const useCreateUserMutation = () => {
+    const queryClient = useQueryClient();
+    const { toast } = useToast();
+
+    return useMutation({
+        mutationKey: ["create-user"],
+        mutationFn: createAccount,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+            toast({
+                title: data.message ?? "Create successfully",
+            });
+
+            return data;
+        },
+        onError: (error) => {
+            toast({
+                title: error.message ?? "Some error occured",
+                variant: "destructive",
+            });
+        },
+    })
+
+}

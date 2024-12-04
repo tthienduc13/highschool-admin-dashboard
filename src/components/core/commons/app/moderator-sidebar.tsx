@@ -110,6 +110,10 @@ const data = {
                     title: "Limits",
                     url: "#",
                 },
+                {
+                    title: "University",
+                    url: "/master-data/university",
+                }
             ],
         },
         {
@@ -124,10 +128,6 @@ const data = {
                 {
                     title: "Unpublished Course",
                     url: "/course-management/unpublished-courses",
-                },
-                {
-                    title: "Ciriculum",
-                    url: "#",
                 },
             ],
         },
@@ -179,17 +179,17 @@ const data = {
                     url: "/career-mentor/mbti",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
+                    title: "Majors",
+                    url: "/career-mentor/major",
                 },
                 {
-                    title: "Tutorials",
-                    url: "#",
+                    title: "Major Category",
+                    url: "/career-mentor/major-category",
                 },
                 {
-                    title: "Changelog",
-                    url: "#",
-                },
+                    title: "Occupation",
+                    url: "/career-mentor/occupation",
+                }
             ],
         },
     ],

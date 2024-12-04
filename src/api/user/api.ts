@@ -1,7 +1,7 @@
 import { endpointUser } from "@/helpers/endpoint";
 import axiosServices from "@/lib/axios";
 import { Metadata, ModelResponse, Pagination } from "../common/type";
-import { Student, Teacher, UserPreview, UserRole, UserStatus } from "./type";
+import { Student, Teacher, UserCreate, UserPreview, UserRole, UserStatus } from "./type";
 
 export const getUsers = async ({
     page,
@@ -53,6 +53,23 @@ export const getUserDetail = async ({
         throw error;
     }
 };
+
+export const createAccount = async ({
+    user
+}: {
+    user: UserCreate
+}): Promise<ModelResponse<string>> => {
+    try {
+        const response = await axiosServices.post(endpointUser.CREATE_USER, {
+            user
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error creating account:", error);
+        throw error;
+    }
+}
 
 // export const updateStatusUser = async ({
 //     userId,

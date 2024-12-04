@@ -66,3 +66,35 @@ export const useProvinceSchoolQuery = ({
         enabled: !!provinceId,
     });
 };
+
+export const useSchoolFilterQuery = ({
+    search,
+    pageSize,
+    pageNumber,
+    provinceId
+}: {
+    search?: string;
+    pageSize: number;
+    pageNumber: number;
+    provinceId?: string | null;
+}) => {
+    return useQuery({
+        queryKey: ["schools", search, provinceId, pageSize, pageNumber],
+        queryFn: () => {
+            if (provinceId) {
+                return getProvinceSchools({
+                    search: search,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize,
+                    provinceId: provinceId,
+                });
+            } else {
+                return getSchools({
+                    search: search,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize,
+                });
+            }
+        }
+    });
+}
