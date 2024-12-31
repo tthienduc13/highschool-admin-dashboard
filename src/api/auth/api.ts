@@ -8,10 +8,10 @@ type LoginResponse = {
     username: string | null;
     fullname: string;
     image: string;
-    isNewUser: boolean;
+    progresStage: boolean;
     roleName: string | null;
     lastLoginAt: Date;
-    token: string;
+    accessToken: string;
 };
 
 export const login = async ({

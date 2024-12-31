@@ -184,6 +184,11 @@ const endPointMajor = {
         `${prefixUserServices}${prefixVersion}/majorCategory/${majorCategoryId}`,
 }
 
+const endPointQuiz = {
+    GET_QUIZ: `${prefixDocumentServices}${prefixVersion}/questions/quiz`,
+    CREATE_QUIZ: `${prefixDocumentServices}${prefixVersion}/questions`,
+}
+
 export {
     endpointAuth,
     endpointUser,
@@ -205,5 +210,6 @@ export {
     endpointDocumentMedia,
     endPointUniversity,
     endPointOccupation,
-    endPointMajor
+    endPointMajor,
+    endPointQuiz
 };

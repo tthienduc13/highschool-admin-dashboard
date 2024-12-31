@@ -34,7 +34,7 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
     const tabs: TabItemProps[] = [
         {
             ref: detailTabRef,
-            label: "Lesson Detail",
+            label: "Lesson Detail aaa",
             icon: <IconFileDescription size={16} />,
             value: "detail",
         },
@@ -64,12 +64,12 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
                 tab === "detail"
                     ? detailTabRef.current
                     : tab === "theory"
-                    ? contentRef.current
-                    : tab === "flashcard"
-                    ? flashcardRef.current
-                    : tab === "quiz"
-                    ? quizRef.current
-                    : null;
+                        ? contentRef.current
+                        : tab === "flashcard"
+                            ? flashcardRef.current
+                            : tab === "quiz"
+                                ? quizRef.current
+                                : null;
 
             if (tabRef) {
                 setActiveTabStyle({
@@ -106,11 +106,10 @@ export const Tabs = ({ tab, onTabChange, isLoading }: TabsProps) => {
                         key={value}
                         ref={ref}
                         onClick={() => handleTabChange(value)}
-                        className={`cursor-pointer text-xs flex items-center gap-1 p-2 rounded-md ${
-                            tab === value
+                        className={`cursor-pointer text-xs flex items-center gap-1 p-2 rounded-md ${tab === value
                                 ? "font-bold text-blue text-primary bg-primary/10 border-primary"
                                 : "text-muted-foreground font-semibold hover:bg-background hover:shadow"
-                        }`}
+                            }`}
                     >
                         {icon}
                         {label}

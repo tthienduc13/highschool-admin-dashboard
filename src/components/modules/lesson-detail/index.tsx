@@ -10,6 +10,7 @@ import { Tabs } from "./tabs";
 import { useState } from "react";
 import { LessonDetail } from "./lesson-detail";
 import dynamic from "next/dynamic";
+import { Quiz } from "./quiz";
 
 interface LessonDetailModuleProps {
     lessonId: string;
@@ -90,6 +91,7 @@ function LessonDetailModule({ lessonId }: LessonDetailModuleProps) {
                         />
                     )}
                     {tab === "theory" && <LessonTheory lessonId={lessonId} />}
+                    {tab === "quiz" && <Quiz />}
                 </div>
             </div>
         </PageContainer>
