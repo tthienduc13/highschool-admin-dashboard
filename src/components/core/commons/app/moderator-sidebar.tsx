@@ -8,9 +8,9 @@ import {
     Command,
     Folder,
     Forward,
-    Frame,
     GalleryVerticalEnd,
     Map,
+    MapIcon,
     MoreHorizontal,
     PieChart,
     Plus,
@@ -113,7 +113,7 @@ const data = {
                 {
                     title: "University",
                     url: "/master-data/university",
-                }
+                },
             ],
         },
         {
@@ -189,7 +189,22 @@ const data = {
                 {
                     title: "Occupation",
                     url: "/career-mentor/occupation",
-                }
+                },
+            ],
+        },
+        {
+            title: "Roadmap Managments",
+            url: "#",
+            icon: MapIcon,
+            items: [
+                {
+                    title: "Roadmap List",
+                    url: "/roadmap-management/roadmaps",
+                },
+                {
+                    title: "Unpublished Course",
+                    url: "/course-management/unpublished-courses",
+                },
             ],
         },
     ],
@@ -197,7 +212,7 @@ const data = {
         {
             name: "Design Engineering",
             url: "#",
-            icon: Frame,
+            icon: MapIcon,
         },
         {
             name: "Sales & Marketing",

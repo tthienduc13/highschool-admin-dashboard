@@ -1,0 +1,61 @@
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background-color: #1a5fff;
+  border-radius: 50%;
+}
+
+.react-flow__edge .react-flow__edge-path {
+  stroke: #1a5fff;
+  stroke-width: 2;
+  stroke-opacity: 0.75;
+}
+
+.react-flow__edge.dashed .react-flow__edge-path {
+  stroke-dasharray: 0;
+  stroke-linecap: round;
+  stroke-dasharray: 0 10;
+  stroke-dashoffset: 5;
+}
+
+.dndflow {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dndflow .dndnode {
+  height: 20px;
+  padding: 4px;
+  border: 1px solid #1a192b;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+}
+
+.dndflow .dndnode.input {
+  border-color: #0041d0;
+}
+
+.dndflow .dndnode.output {
+  border-color: #ff0072;
+}
+
+.dndflow .reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dndflow .selectall {
+  margin-top: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .dndflow {
+    flex-direction: row;
+  }
+}

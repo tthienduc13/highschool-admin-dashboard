@@ -20,7 +20,7 @@ const endpointUser = {
     GET_USER_DETAIL: (userId: string) =>
         `${prefixUserServices}${prefixVersion}/users/infor/${userId}`,
     UPDATE_USER: `${prefixUserServices}${prefixVersion}/users/baseuser`,
-    CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`
+    CREATE_USER: `${prefixUserServices}${prefixVersion}/users/createaccount`,
 };
 
 const endpointSubjectCurriculum = {
@@ -86,7 +86,8 @@ const endpointRoadmap = {
 const endpointDocument = {
     GET_DOCUMENTS: `${prefixDocumentServices}${prefixVersion}/documents/advance`,
     CREATE: `${prefixDocumentServices}${prefixVersion}/document`,
-    DELETE: (id: string) => `${prefixDocumentServices}${prefixVersion}/document/${id}`,
+    DELETE: (id: string) =>
+        `${prefixDocumentServices}${prefixVersion}/document/${id}`,
 };
 
 const endpointDocumentMedia = {
@@ -156,7 +157,7 @@ const endPointUniversity = {
         `${prefixUserServices}${prefixVersion}/universityMajor/${universityMajorId}`,
     DELETE_UNIVERSITY_MAJOR: (universityMajorId: string) =>
         `${prefixUserServices}${prefixVersion}/universityMajor/${universityMajorId}`,
-}
+};
 
 const endPointOccupation = {
     GET_OCCUPATIONS: `${prefixUserServices}${prefixVersion}/occupation`,
@@ -165,7 +166,7 @@ const endPointOccupation = {
         `${prefixUserServices}${prefixVersion}/occupation/${occupationId}`,
     DELETE_OCCUPATION: (occupationId: string) =>
         `${prefixUserServices}${prefixVersion}/occupation/${occupationId}`,
-}
+};
 
 const endPointMajor = {
     GET_MAJOR: `${prefixUserServices}${prefixVersion}/major`,
@@ -182,12 +183,12 @@ const endPointMajor = {
         `${prefixUserServices}${prefixVersion}/majorCategory/${majorCategoryId}`,
     DELETE_MAJOR_CATEGORY: (majorCategoryId: string) =>
         `${prefixUserServices}${prefixVersion}/majorCategory/${majorCategoryId}`,
-}
+};
 
 const endPointQuiz = {
     GET_QUIZ: `${prefixDocumentServices}${prefixVersion}/questions/quiz`,
     CREATE_QUIZ: `${prefixDocumentServices}${prefixVersion}/questions`,
-}
+};
 
 export {
     endpointAuth,
@@ -211,5 +212,5 @@ export {
     endPointUniversity,
     endPointOccupation,
     endPointMajor,
-    endPointQuiz
+    endPointQuiz,
 };
