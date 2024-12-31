@@ -21,8 +21,8 @@ export const useLoginMutation = () => {
         }) => login({ email, password }),
         onSuccess: (data) => {
             if (data.status === 200) {
-                const { token, roleName, ...userData } = data.data!;
-                webCookieStorage.setToken(token);
+                const { accessToken, roleName, ...userData } = data.data!;
+                webCookieStorage.setToken(accessToken);
                 setUserInfo({
                     userId: userData.userId,
                     email: userData.email,
